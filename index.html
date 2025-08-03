@@ -1,32 +1,84 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Generate Preschool Stories</title>
+<title>🌈 365 Custom Story Generator</title>
+<style>
+  body {
+    font-family: Comic Sans MS, sans-serif;
+    text-align: center;
+    background: linear-gradient(to bottom, #a7ffeb, #e1f5fe);
+    margin: 0; padding: 0;
+  }
+  h1 {
+    color: #ff4081;
+    text-shadow: 2px 2px #fff176;
+    margin-top: 30px;
+  }
+  h2 { color: #3f51b5; margin-top: 10px; }
+  p { color: #4a148c; }
+  
+  .input-box {
+    margin: 10px;
+    padding: 10px;
+    width: 250px;
+    border: 2px solid #ffcc80;
+    border-radius: 15px;
+    font-size: 16px;
+    outline: none;
+    text-align: center;
+  }
+  .input-box:focus {
+    border-color: #ff4081;
+    box-shadow: 0 0 10px #ffccbc;
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 18px;
+    background: linear-gradient(to right, #ff7043, #ffca28);
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  button:hover { transform: scale(1.1); background: #ff5722; }
+
+  #storyOutput {
+    margin: 30px auto;
+    width: 60%;
+    padding: 15px;
+    font-size: 20px;
+    color: #1a237e;
+    background: #fff8e1;
+    border-radius: 20px;
+    border: 3px dashed #ffcc80;
+  }
+</style>
 </head>
 <body>
-    <h1>🌈 365 Custom Story Generator</h1>
-    <p>Let's Create a Fun Story!</p>
+<h1>🌈 365 Custom Story Generator</h1>
+<p>Let's Create a Fun Story!</p>
+<h2>A1 Level – Let’s Create an Adventure!</h2>
 
-    <h2>A1 Level – Let’s Create an Adventure!</h2>
+<input class="input-box" placeholder="Main Character"><br>
+<input class="input-box" placeholder="Friend or Pet"><br>
+<input class="input-box" placeholder="Where are they? (park, lake)"><br>
+<input class="input-box" placeholder="Special Object (ball, kite)"><br>
+<input class="input-box" placeholder="Simple Problem (lost toy)"><br>
 
-    <input type="text" placeholder="Main Character">
-    <input type="text" placeholder="Friend or Pet">
-    <input type="text" placeholder="Where are they? (park, lake)">
-    <input type="text" placeholder="Special Object (ball, kite)">
-    <input type="text" placeholder="Simple Problem (lost toy)">
-    
-    <br><br>
-    <button onclick="generateStory()">Generate Story</button>
+<button onclick="generateStory()">Generate Story</button>
+<p id="storyOutput"></p>
 
-    <p id="storyOutput"></p>
-
-    <script>
-    function generateStory() {
-        const inputs = document.querySelectorAll('input');
-        const story = `One day, ${inputs[0].value} and ${inputs[1].value} went to the ${inputs[2].value}.
-        They had a ${inputs[3].value} with them. Suddenly, they faced a problem: ${inputs[4].value}!`;
-        document.getElementById('storyOutput').innerText = story;
-    }
-    </script>
+<script>
+function generateStory() {
+  const i = document.querySelectorAll('.input-box');
+  const story = `One sunny day, ${i[0].value} and ${i[1].value} went to the ${i[2].value}. 
+  They brought a ${i[3].value} to play with. Suddenly, oh no! ${i[4].value}! 
+  But together, they solved the problem and had the best adventure ever! 🌟`;
+  document.getElementById('storyOutput').innerText = story;
+}
+</script>
 </body>
 </html>
