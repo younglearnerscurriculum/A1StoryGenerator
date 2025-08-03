@@ -17,11 +17,13 @@
 
   .container {
     margin-top: 60px;
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.95);
     display: inline-block;
     padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px rgba(0,0,0,0.3);
+    border: 8px solid;
+    border-image: linear-gradient(45deg, #ff69b4, #ffcc00, #00ccff, #ff69b4) 1;
   }
 
   input {
@@ -52,10 +54,14 @@
     font-size: 1.3em;
     padding: 20px;
     background: #fff4f9;
-    border-radius: 10px;
+    border-radius: 15px;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    white-space: pre-line;
+    border: 5px solid;
+    border-image: linear-gradient(45deg, #ff69b4, #ffcc00, #00ccff, #ff69b4) 1;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
   }
 
   #starCounter {
@@ -75,7 +81,7 @@
   .star {
     position: absolute;
     font-size: 60px;
-    animation: float 12s linear infinite;
+    animation: float 12s linear forwards;
     cursor: pointer;
   }
 
@@ -100,7 +106,7 @@
   <input type="text" id="ending" placeholder="Ending (e.g., found a new friend)">
   <br>
   <button onclick="generateStory()">Generate My Story</button>
-  <button onclick="generateRandomStory()">Generate Another Story</button>
+  <button onclick="generateStory()">Generate Another Story</button>
   <div id="story"></div>
 </div>
 
@@ -128,14 +134,65 @@
   }
   setInterval(createStar, 2000);
 
-  // 100 story templates
+  // 50 six-line story templates
   const storyTemplates = [
-    "One day, {character} went to {place} with a {toy}. Suddenly, it {problem}. Luckily, {ending}.",
-    "In {place}, {character} played with a {toy}. But then, it {problem}. Soon after, {ending}.",
-    "It was a sunny day when {character} found a {toy} at {place}. Suddenly, it {problem}. Luckily, {ending}.",
-    "At {place}, {character} and their {toy} had an adventure. Suddenly, it {problem}. But then, {ending}.",
-    "While exploring {place}, {character} was carrying a {toy}. Out of nowhere, it {problem}. In the end, {ending}.",
-    // ... add 95 more variations for full random library
+  "One day, {character} went to {place}.\nIt carried a {toy} happily.\nThen, it suddenly {problem}.\nIt felt worried and looked around.\nSoon, help arrived!\nIn the end, it {ending}.",
+  "In {place}, {character} played with a {toy}.\nThe sun was shining warmly.\nSuddenly, it {problem}.\nIt tried to fix things on its own.\nA kind friend appeared.\nFinally, it {ending}.",
+  "It was a bright morning when {character} visited {place}.\nIt brought along a {toy}.\nSuddenly, it {problem}.\nIt searched for a solution.\nSomeone gave a helping hand.\nHappily, it {ending}.",
+  "At {place}, {character} had fun with its {toy}.\nBirds were singing all around.\nSuddenly, it {problem}.\nIt started to feel sad.\nThen a surprise came.\nLuckily, it {ending}.",
+  "While exploring {place}, {character} held a {toy}.\nEverything was peaceful.\nSuddenly, it {problem}.\nIt ran and looked for help.\nA helper showed up.\nAt last, it {ending}.",
+  "On a windy day, {character} arrived at {place}.\nIt was excited to play with its {toy}.\nSuddenly, it {problem}.\nThe wind blew loudly.\nSomeone waved from afar.\nFinally, it {ending}.",
+  "In the middle of {place}, {character} danced with a {toy}.\nIt laughed happily.\nSuddenly, it {problem}.\nThe laughter stopped.\nA bird flew down to help.\nAt last, it {ending}.",
+  "Early in the morning, {character} walked to {place}.\nIt was holding a {toy} tightly.\nThen, it {problem}.\nIt looked left and right.\nA friend ran over.\nFinally, it {ending}.",
+  "Under the trees of {place}, {character} sat with a {toy}.\nThe leaves rustled gently.\nSuddenly, it {problem}.\nIt sighed softly.\nBut then, magic happened.\nHappily, it {ending}.",
+  "By the river at {place}, {character} splashed water with a {toy}.\nIt felt so free.\nThen, it {problem}.\nThe river sparkled.\nSomeone called its name.\nAt last, it {ending}.",
+
+  "One afternoon, {character} went to {place}.\nIt was so happy to carry a {toy}.\nSuddenly, it {problem}.\nIt froze for a moment.\nThen, help appeared.\nLuckily, it {ending}.",
+  "In {place}, {character} showed off its {toy}.\nEveryone was amazed.\nThen, it {problem}.\nIt felt a little shy.\nSomeone gave it courage.\nFinally, it {ending}.",
+  "It was a sunny day when {character} explored {place}.\nIts favorite {toy} was in hand.\nThen, it {problem}.\nIt looked everywhere.\nA solution appeared.\nAt last, it {ending}.",
+  "At {place}, {character} skipped happily with a {toy}.\nThe sky was bright blue.\nThen, it {problem}.\nIt felt a little scared.\nA friend joined in.\nFinally, it {ending}.",
+  "While wandering {place}, {character} carried a {toy}.\nEverything seemed perfect.\nThen, it {problem}.\nIt didn’t know what to do.\nA hero came to help.\nHappily, it {ending}.",
+  "On a calm day, {character} strolled into {place}.\nIt was swinging a {toy}.\nSuddenly, it {problem}.\nIt sat down to think.\nA kind voice called out.\nIn the end, it {ending}.",
+  "Near the flowers of {place}, {character} twirled its {toy}.\nThe air smelled sweet.\nThen, it {problem}.\nIt frowned in worry.\nA butterfly landed nearby.\nFinally, it {ending}.",
+  "In the early morning, {character} raced to {place}.\nIt clutched a {toy}.\nThen, it {problem}.\nIt started to cry.\nBut a helper appeared.\nAt last, it {ending}.",
+  "Inside {place}, {character} played with its {toy}.\nEverything felt cozy.\nThen, it {problem}.\nIt tiptoed around.\nA light shined from above.\nHappily, it {ending}.",
+  "By the bridge at {place}, {character} tapped its {toy}.\nThe sound echoed softly.\nThen, it {problem}.\nIt paused and listened.\nSomeone waved nearby.\nFinally, it {ending}.",
+
+  "One morning, {character} entered {place}.\nIt tossed a {toy} into the air.\nSuddenly, it {problem}.\nIt gasped loudly.\nA helper came running.\nIn the end, it {ending}.",
+  "In {place}, {character} skipped with its {toy}.\nEverything felt magical.\nThen, it {problem}.\nIt crouched down.\nA small animal appeared.\nFinally, it {ending}.",
+  "It was a rainy day when {character} visited {place}.\nIt wore a smile with a {toy}.\nSuddenly, it {problem}.\nRaindrops splashed.\nThen, a rainbow came.\nHappily, it {ending}.",
+  "At {place}, {character} ran in circles with a {toy}.\nThe breeze was soft.\nThen, it {problem}.\nIt fell quiet.\nA voice called kindly.\nAt last, it {ending}.",
+  "While exploring {place}, {character} hugged a {toy}.\nThe world felt safe.\nThen, it {problem}.\nIt looked up at the sky.\nA cloud smiled down.\nFinally, it {ending}.",
+  "On a chilly morning, {character} went to {place}.\nIts {toy} jingled.\nSuddenly, it {problem}.\nIt shivered a little.\nA warm friend hugged it.\nHappily, it {ending}.",
+  "Among the flowers at {place}, {character} showed its {toy}.\nThe petals danced.\nThen, it {problem}.\nIt pouted in worry.\nA bee buzzed by softly.\nFinally, it {ending}.",
+  "In the quiet of {place}, {character} rested with a {toy}.\nAll was calm.\nThen, it {problem}.\nIt blinked in surprise.\nSomeone gently helped.\nAt last, it {ending}.",
+  "Under the sun at {place}, {character} swung a {toy}.\nIt hummed a tune.\nThen, it {problem}.\nIt stopped singing.\nA bird sang back.\nHappily, it {ending}.",
+  "Next to the lake at {place}, {character} bounced a {toy}.\nWater rippled.\nThen, it {problem}.\nIt reached out carefully.\nA fish splashed playfully.\nFinally, it {ending}.",
+
+  "In the afternoon, {character} visited {place}.\nIt had a shiny {toy}.\nSuddenly, it {problem}.\nIt stepped back.\nA sparkle lit the way.\nAt last, it {ending}.",
+  "In {place}, {character} leaped with a {toy}.\nThe ground felt soft.\nThen, it {problem}.\nIt whispered to itself.\nA leaf landed gently.\nFinally, it {ending}.",
+  "It was a bright day when {character} skipped to {place}.\nIts {toy} shone brightly.\nSuddenly, it {problem}.\nIt tilted its head.\nA cheerful voice called.\nIn the end, it {ending}.",
+  "At {place}, {character} shared a {toy} with friends.\nThey laughed together.\nThen, it {problem}.\nThe laughter stopped.\nA friend held its hand.\nFinally, it {ending}.",
+  "While walking {place}, {character} whistled with a {toy}.\nThe air was crisp.\nThen, it {problem}.\nIt turned slowly.\nA balloon floated down.\nHappily, it {ending}.",
+  "On a sparkling day, {character} came to {place}.\nIts {toy} glittered.\nSuddenly, it {problem}.\nIt froze in surprise.\nSomeone smiled warmly.\nAt last, it {ending}.",
+  "In the corner of {place}, {character} rested with a {toy}.\nAll was silent.\nThen, it {problem}.\nIt felt alone.\nA butterfly fluttered near.\nFinally, it {ending}.",
+  "Early evening, {character} wandered into {place}.\nIt twirled a {toy}.\nThen, it {problem}.\nShadows danced around.\nA light flickered warmly.\nIn the end, it {ending}.",
+  "Deep inside {place}, {character} juggled a {toy}.\nIt giggled loudly.\nSuddenly, it {problem}.\nIt dropped its toy.\nA helper picked it up.\nFinally, it {ending}.",
+  "By the hills of {place}, {character} waved its {toy}.\nWind rushed by.\nThen, it {problem}.\nIt staggered a bit.\nA hand reached out.\nHappily, it {ending}.",
+
+  "One sunny noon, {character} played in {place}.\nIt tossed a {toy} high.\nThen, it {problem}.\nIt gasped in shock.\nBut a friend appeared.\nAt last, it {ending}.",
+  "In {place}, {character} sang with a {toy}.\nBirds joined the song.\nThen, it {problem}.\nIt fell silent.\nA feather landed softly.\nFinally, it {ending}.",
+  "It was a golden day when {character} hopped to {place}.\nIts {toy} bounced.\nThen, it {problem}.\nIt looked down.\nA smile came to its face.\nIn the end, it {ending}.",
+  "At {place}, {character} dreamed with its {toy}.\nClouds drifted by.\nThen, it {problem}.\nIt sighed deeply.\nA rainbow appeared.\nHappily, it {ending}.",
+  "While strolling {place}, {character} hummed with a {toy}.\nThe wind joined in.\nThen, it {problem}.\nIt stopped to listen.\nA bell rang far away.\nFinally, it {ending}.",
+  "On a clear night, {character} explored {place}.\nStars twinkled above.\nThen, it {problem}.\nIt shivered lightly.\nA shooting star flew past.\nAt last, it {ending}.",
+  "Next to the fountain at {place}, {character} played with a {toy}.\nWater sparkled.\nThen, it {problem}.\nIt crouched near.\nA frog croaked cheerfully.\nFinally, it {ending}.",
+  "Quietly in {place}, {character} admired its {toy}.\nThe world felt calm.\nThen, it {problem}.\nIt blinked twice.\nA gentle breeze kissed it.\nHappily, it {ending}.",
+  "Above the hill at {place}, {character} waved its {toy}.\nThe sun shone bright.\nThen, it {problem}.\nIt stumbled a little.\nA laugh echoed warmly.\nFinally, it {ending}.",
+  "In the heart of {place}, {character} cherished its {toy}.\nThe day felt perfect.\nThen, it {problem}.\nIt waited patiently.\nJoy returned at last.\nIn the end, it {ending}."
+];
+
+    // … repeat pattern until 50 varied six-line templates …
   ];
 
   // Generate story from inputs
@@ -148,18 +205,13 @@
 
     const template = storyTemplates[Math.floor(Math.random() * storyTemplates.length)];
     const story = template
-      .replace("{character}", character)
-      .replace("{place}", place)
-      .replace("{toy}", toy)
-      .replace("{problem}", problem)
-      .replace("{ending}", ending);
+      .replaceAll("{character}", character)
+      .replaceAll("{place}", place)
+      .replaceAll("{toy}", toy)
+      .replaceAll("{problem}", problem)
+      .replaceAll("{ending}", ending);
 
     document.getElementById('story').innerText = story;
-  }
-
-  // Generate random story
-  function generateRandomStory() {
-    generateStory();
   }
 </script>
 
