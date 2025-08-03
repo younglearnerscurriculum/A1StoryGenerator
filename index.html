@@ -1,189 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kids Story Generator 1</title>
-<style>
-  body {
-    font-family: "Comic Sans MS", cursive, sans-serif;
-    text-align: center;
-    background: linear-gradient(to top, #87CEFA, #ffffff);
-    overflow: hidden;
-  }
-  h1 {
-    color: #ff69b4;
-    font-size: 3em;
-    margin-top: 40px;
-  }
-  .generator-box {
-    background: rgba(255,255,255,0.85);
-    padding: 20px;
-    width: 70%;
-    margin: auto;
-    border-radius: 20px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-  }
-  input {
-    margin: 10px;
-    padding: 8px;
-    font-size: 1.2em;
-    border-radius: 8px;
-    border: 2px solid #ff69b4;
-    text-align: center;
-  }
-  button {
-    background-color: #ff69b4;
-    color: white;
-    font-size: 1.2em;
-    padding: 10px 20px;
-    margin-top: 15px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-  button:hover {
-    background-color: #ff1493;
-  }
-  #story {
-    font-size: 1.5em;
-    color: #333;
-    margin-top: 20px;
-    padding: 20px;
-  }
-  /* Floating Clouds */
-  .cloud {
-    position: absolute;
-    top: 50px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.8;
-    animation: floatClouds 40s linear infinite;
-  }
-  @keyframes floatClouds {
-    from { left: -200px; }
-    to { left: 100%; }
-  }
-  /* Balloons */
-  .balloon {
-    position: absolute;
-    bottom: -150px;
-    width: 60px;
-    height: 80px;
-    border-radius: 50%;
-    animation: floatBalloons 8s linear infinite;
-    cursor: pointer;
-  }
-  @keyframes floatBalloons {
-    from { transform: translateY(0); }
-    to { transform: translateY(-120vh); }
-  }
-  footer {
-    margin-top: 40px;
-    font-size: 0.9em;
-    color: #333;
-  }
-  footer img {
-    width: 120px;
-    display: block;
-    margin: 10px auto;
-  }
-  /* Confetti */
-  .confetti {
-    position: absolute;
-    width: 8px;
-    height: 12px;
-    background: red;
-    opacity: 0.8;
-    animation: fall 1s linear forwards;
-  }
-  @keyframes fall {
-    to {
-      transform: translateY(100px) rotate(360deg);
-      opacity: 0;
+  <meta charset="UTF-8">
+  <title>Kids Story Generator 1</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to bottom, #aee1f9, #fcefee);
     }
-  }
-</style>
+    input {
+      margin: 5px;
+      padding: 8px;
+      border-radius: 8px;
+      border: 2px solid hotpink;
+    }
+    button {
+      background-color: hotpink;
+      color: white;
+      padding: 8px 15px;
+      margin: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #storyOutput {
+      font-size: 20px;
+      margin-top: 20px;
+      white-space: pre-line;
+    }
+  </style>
 </head>
 <body>
+  <h1>🎉 Kids Story Generator 1 🎉</h1>
 
-<h1>🎈 Kids Story Generator 1 🎈</h1>
-
-<div class="generator-box">
-  <p>Fill in the blanks to create your fun story:</p>
-  <input type="text" id="character" placeholder="Character (e.g., a puppy)">
-  <input type="text" id="place" placeholder="Place (e.g., the park)">
-  <input type="text" id="toy" placeholder="Toy (e.g., a ball)">
-  <input type="text" id="problem" placeholder="Problem (e.g., got lost)">
-  <input type="text" id="ending" placeholder="Ending (e.g., found a new friend)">
+  <input type="text" id="character" placeholder="Main Character">
+  <input type="text" id="place" placeholder="Place (park, beach)">
+  <input type="text" id="object" placeholder="Special Object (ball, kite)">
+  <input type="text" id="problem" placeholder="Problem (lost toy)">
+  <input type="text" id="solution" placeholder="Solution (found it with a friend)">
+  
   <br>
   <button onclick="generateStory()">Generate My Story</button>
-  <div id="story"></div>
-</div>
-
-<!-- Clouds -->
-<div class="cloud" style="width:100px;height:60px;left:0;animation-duration:50s;"></div>
-<div class="cloud" style="width:80px;height:50px;top:120px;left:30px;animation-duration:60s;"></div>
-<div class="cloud" style="width:120px;height:70px;top:80px;left:60px;animation-duration:70s;"></div>
-
-<!-- Sound -->
-<audio id="popSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
-
-<footer>
-  <img src="1.png" alt="Young Learners Curriculum Logo">
-  <p>© 2025 Young Learners Curriculum – All Rights Reserved</p>
-</footer>
+  
+  <p id="storyOutput"></p>
 
 <script>
 function generateStory() {
-  const character = document.getElementById("character").value || "a little cat";
-  const place = document.getElementById("place").value || "the forest";
-  const toy = document.getElementById("toy").value || "a kite";
-  const problem = document.getElementById("problem").value || "got stuck in a tree";
-  const ending = document.getElementById("ending").value || "found a happy ending";
+  const name = document.getElementById("character").value.trim();
+  const place = document.getElementById("place").value.trim();
+  const object = document.getElementById("object").value.trim();
+  const problem = document.getElementById("problem").value.trim();
+  const solution = document.getElementById("solution").value.trim();
 
-  const story = `One day, ${character} went to ${place}. 
-  They brought their favorite ${toy}. 
-  But then, it ${problem}! 
-  ${character} was worried and ran around. 
-  Soon, help came and ${ending}. 
-  It was the best day ever!`;
-
-  document.getElementById("story").innerText = story;
-}
-
-// Confetti function
-function launchConfetti(x, y) {
-  for (let i = 0; i < 20; i++) {
-    const confetti = document.createElement("div");
-    confetti.classList.add("confetti");
-    confetti.style.left = x + "px";
-    confetti.style.top = y + "px";
-    confetti.style.background = ["#ff0", "#f0f", "#0ff", "#ff6347", "#00ff00"][Math.floor(Math.random()*5)];
-    document.body.appendChild(confetti);
-    setTimeout(() => confetti.remove(), 1000);
+  // Detect plural vs singular
+  const isPlural = name.includes(" and ");
+  
+  let subjPronoun, objPronoun, verbBe, possPronoun;
+  
+  if (isPlural) {
+    subjPronoun = "They";
+    objPronoun = "them";
+    verbBe = "were";
+    possPronoun = "their";
+  } else {
+    // Randomly assign he/she/it if single character
+    let gender = Math.random() < 0.33 ? "he" : (Math.random() < 0.5 ? "she" : "it");
+    subjPronoun = gender.charAt(0).toUpperCase() + gender.slice(1);
+    objPronoun = gender === "it" ? "it" : "him/her";
+    verbBe = gender === "it" ? "was" : "was";
+    possPronoun = gender === "it" ? "its" : (gender === "he" ? "his" : "her");
   }
-}
 
-// Random Balloons
-const colors = ["red", "pink", "orange", "yellow", "green", "blue", "purple"];
-for (let i = 0; i < 6; i++) {
-  const balloon = document.createElement("div");
-  balloon.classList.add("balloon");
-  balloon.style.left = Math.random() * 90 + "%";
-  balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
-  balloon.style.animationDuration = 8 + Math.random() * 5 + "s";
-  document.body.appendChild(balloon);
+  const story = `One day, ${name} went to ${place}.
+${subjPronoun} brought ${possPronoun} favorite ${object}.
+But then, ${problem}!
+${name} ${verbBe} worried and ran around.
+Soon, help came and ${solution}.
+It was the best day ever!`;
 
-  // Balloon popping with sound + confetti
-  balloon.addEventListener('click', (event) => {
-    balloon.style.display = 'none';
-    document.getElementById('popSound').play();
-    launchConfetti(event.clientX, event.clientY);
-  });
+  document.getElementById("storyOutput").innerText = story;
 }
 </script>
-
 </body>
 </html>
