@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kids Story Generator 1</title>
-
+  <title>Kids Story Generator</title>
   <style>
     body {
       font-family: 'Comic Sans MS', cursive, sans-serif;
@@ -22,18 +21,18 @@
     }
 
     #counter {
+      position: fixed;
+      top: 20px;
+      right: 20px;
       font-size: 1.5em;
+      color: gold;
       font-weight: bold;
-      color: #ff9900;
-      text-shadow: 0 0 10px #fff;
-      margin-top: 10px;
-      animation: pulse 1.5s infinite;
+      animation: pulse 2s infinite;
     }
 
     @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.2); }
-      100% { transform: scale(1); }
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.3); opacity: 0.7; }
     }
 
     .container {
@@ -41,7 +40,7 @@
       border-radius: 20px;
       padding: 20px;
       width: 60%;
-      margin: 30px auto;
+      margin: 120px auto 50px auto;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     }
 
@@ -75,13 +74,13 @@
       white-space: pre-line;
     }
 
-    /* Floating twinkling stars */
+    /* Floating Stars */
     .star {
       position: absolute;
       font-size: 40px;
-      animation: float 10s linear infinite, twinkle 1.5s infinite;
+      animation: float 15s linear infinite, twinkle 2s infinite;
       cursor: pointer;
-      user-select: none;
+      color: gold;
     }
 
     @keyframes float {
@@ -92,7 +91,7 @@
 
     @keyframes twinkle {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+      50% { opacity: 0.5; }
     }
 
     footer {
@@ -105,8 +104,8 @@
 </head>
 <body>
 
-  <h1>Kids Story Generator 1</h1>
-  <div id="counter">⭐ Stars Popped: 0 ⭐</div>
+  <div id="counter">⭐ 0</div>
+  <h1>Kids Story Generator</h1>
 
   <div class="container">
     <p>Fill in the blanks to create your fun story:</p>
@@ -125,10 +124,103 @@
     © 2025 Young Learners Curriculum – All Rights Reserved
   </footer>
 
-  <audio id="popSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
+  <audio id="popSound" src="https://www.soundjay.com/button/sounds/button-16.mp3" preload="auto"></audio>
 
   <script>
-    let popCount = 0;
+    const storyTemplates = [
+      "One day, {character} went to {place} with a {toy}.",
+      "{character} loved to play with the {toy} at {place}.",
+      "At {place}, {character} discovered that the {toy} {problem}.",
+      "Then {character} met a new friend and together they {ending}.",
+      "{character} had an amazing day at {place} with the {toy}.",
+      "The adventure began when {character} arrived at {place}.",
+      "With the {toy}, {character} explored all around {place}.",
+      "Suddenly, the {toy} {problem}, and {character} didn’t know what to do!",
+      "Luckily, someone came to help, and they {ending}.",
+      "It became the best memory for {character} at {place}.",
+      "Once upon a time, {character} decided to visit {place} with a {toy}.",
+      "Everything was fun until the {toy} suddenly {problem}.",
+      "But {character} never gave up and {ending}.",
+      "{character} enjoyed every minute of the adventure at {place}.",
+      "A sunny day made {place} perfect for {character} and the {toy}.",
+      "Playing with the {toy}, {character} felt very happy.",
+      "Oh no! The {toy} {problem} in the middle of the fun!",
+      "Soon, {character} solved the problem and {ending}.",
+      "It was the happiest day {character} ever had!",
+      "From that day, {character} always remembered {place}.",
+      // 80 more templates below
+      "{character} packed a {toy} before going to {place}.",
+      "At {place}, {character} met a kind stranger and they {ending}.",
+      "While exploring {place}, {character}'s {toy} {problem}.",
+      "Everyone at {place} cheered when {character} finally {ending}.",
+      "{character} made a new discovery about the {toy} at {place}.",
+      "The {toy} led {character} to an adventure in {place}.",
+      "{character} dreamed of going to {place} and today it came true!",
+      "On arrival at {place}, {character} started playing with the {toy}.",
+      "Suddenly, {character} realized the {toy} {problem}!",
+      "Thinking quickly, {character} managed to {ending}.",
+      "All the animals in {place} watched {character} with the {toy}.",
+      "The day at {place} was full of laughter for {character}.",
+      "{character} will never forget when the {toy} {problem}.",
+      "In the end, {character} found a way to {ending}.",
+      "Bright sunshine lit up {place} as {character} arrived.",
+      "{character} held the {toy} tightly at {place}.",
+      "Everything was going well until the {toy} {problem}.",
+      "After thinking hard, {character} decided to {ending}.",
+      "{character} felt proud after the adventure at {place}.",
+      "From then on, {character} always took care of the {toy}.",
+      "A colorful day at {place} awaited {character} and the {toy}.",
+      "{character} jumped for joy when the {toy} {ending}.",
+      "While at {place}, the {toy} suddenly {problem}.",
+      "It took a lot of courage, but {character} {ending}.",
+      "Everyone clapped when {character} succeeded at {place}.",
+      "The story of {character} and the {toy} became famous at {place}.",
+      "{character} learned an important lesson about {toy}.",
+      "Under the bright sky, {character} wandered through {place}.",
+      "A surprise at {place} made {character} very happy.",
+      "The {toy} seemed magical in {character}'s hands.",
+      "After the {toy} {problem}, things got exciting.",
+      "{character} was thrilled to finally {ending}.",
+      "{character}'s adventure at {place} started early in the morning.",
+      "By sunset, {character} and the {toy} had many stories to tell.",
+      "{character} couldn't wait to share the adventure with friends.",
+      "Sometimes, the {toy} seemed alive at {place}.",
+      "This was a day {character} would always treasure.",
+      "{character} found something new at {place} with the {toy}.",
+      "Rain or shine, {character} loved adventures at {place}.",
+      "The {toy} made the day at {place} unforgettable.",
+      "After the {problem}, everything turned out fine.",
+      "Helping hands at {place} came just in time.",
+      "{character} celebrated the day by {ending}.",
+      "{character} ran happily across {place}.",
+      "The {toy} sparkled in the sunlight at {place}.",
+      "Every step {character} took led to more fun.",
+      "{character} couldn't believe how exciting {place} was.",
+      "A gentle breeze made the {toy} dance at {place}.",
+      "{character}'s smile brightened all of {place}.",
+      "The day ended perfectly with {ending}.",
+      "{character} whispered, 'What a wonderful day!'",
+      "And so, {character}'s adventure at {place} ended happily.",
+      "{character} waved goodbye to {place} with a big smile.",
+      "The {toy} was safe and sound after {problem}.",
+      "{character} felt proud after solving the problem.",
+      "{character} loved every part of the adventure.",
+      "It was a day filled with joy, fun, and surprises.",
+      "{character} promised to return to {place} soon.",
+      "The {toy} had a special place in {character}'s heart.",
+      "Every moment at {place} felt magical.",
+      "The adventure taught {character} to never give up.",
+      "By the end, {character} learned something new.",
+      "The sky turned pink as {character} headed home.",
+      "All was well after {character} {ending}.",
+      "The memory of this day stayed forever in {character}'s heart.",
+      "And that was how {character}'s journey at {place} ended.",
+      "A cheerful song echoed as {character} left {place}.",
+      "The {toy} seemed happier than ever before.",
+      "{character} felt thankful for a perfect day.",
+      "From that moment, {character} loved {place} even more.",
+      "{character} smiled and whispered, 'See you again soon!'"
+    ];
 
     function generateStory() {
       const character = document.getElementById('character').value;
@@ -142,51 +234,42 @@
         return;
       }
 
-      // Determine pronoun (he/she/it/they)
-      let pronoun = "they";
-      if (!character.includes("and")) {
-        pronoun = "it"; 
-        if (character.toLowerCase().includes("boy") || character.toLowerCase().includes("man") || character.toLowerCase().includes("dog")) {
-          pronoun = "he";
-        } else if (character.toLowerCase().includes("girl") || character.toLowerCase().includes("woman") || character.toLowerCase().includes("cat")) {
-          pronoun = "she";
-        }
-      }
-
-      const storyText = `One day, ${character} went to ${place}.\n` +
-                        `${pronoun.charAt(0).toUpperCase() + pronoun.slice(1)} brought a ${toy}.\n` +
-                        `But then, it ${problem}!\n` +
-                        `${character} felt very worried.\n` +
-                        `Soon, help came and ${ending}.\n` +
-                        `It was the best day ever!`;
+      const randomTemplate = storyTemplates[Math.floor(Math.random() * storyTemplates.length)];
+      const storyText = randomTemplate
+        .replace('{character}', character)
+        .replace('{place}', place)
+        .replace('{toy}', toy)
+        .replace('{problem}', problem)
+        .replace('{ending}', ending);
 
       document.getElementById('story').textContent = storyText;
     }
 
-    // Floating stars
+    // Floating Stars + Counter
+    let score = 0;
     function createStar() {
       const star = document.createElement('div');
       star.className = 'star';
       star.textContent = '⭐';
       star.style.left = Math.random() * 90 + 'vw';
-      star.style.animationDuration = 5 + Math.random() * 5 + 's';
+      star.style.animationDuration = 12 + Math.random() * 6 + 's';
 
       star.addEventListener('click', () => {
+        document.getElementById('popSound').currentTime = 0;
         document.getElementById('popSound').play();
         star.remove();
-        popCount++;
-        document.getElementById('counter').textContent = `⭐ Stars Popped: ${popCount} ⭐`;
+        score++;
+        document.getElementById('counter').textContent = `⭐ ${score}`;
       });
 
       document.body.appendChild(star);
 
       setTimeout(() => {
         star.remove();
-      }, 10000);
+      }, 16000);
     }
 
-    setInterval(createStar, 1500);
+    setInterval(createStar, 2000);
   </script>
-
 </body>
 </html>
