@@ -1,145 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Animated Story Generator</title>
-  <style>
-    body {
-      font-family: "Poppins", sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: #f7f7ff;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kids Story Generator</title>
+<style>
+  body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #ffe1f0, #d9f2ff);
+    height: 100vh;
+    overflow: hidden;
+  }
 
-    #story-container {
-      width: 80%;
-      margin: 20px auto;
-      text-align: center;
-    }
+  h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #ff4da6;
+    margin-top: 20px;
+  }
 
-    .story-text {
-      font-size: 1.4rem;
-      white-space: pre-wrap;   /* Keeps line breaks */
-      opacity: 0;
-      animation: fadeIn 1.2s ease forwards;
-    }
+  #star-counter {
+    position: fixed;
+    top: 15px;
+    right: 20px;
+    font-size: 1.5rem;
+    color: gold;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 8px 15px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+  }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+  .container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    button {
-      margin-top: 20px;
-      padding: 12px 20px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      background-color: #6c63ff;
-      color: white;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+  .story-box {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    width: 60%;
+    max-width: 900px;
+    min-height: 500px;
+  }
 
-    button:hover {
-      background-color: #5a52d4;
-    }
-  </style>
+  .story-box input {
+    width: 60%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 20px;
+    border: 2px solid #ffb347;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .story-box button {
+    margin-top: 15px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(to right, #ff6f61, #ffb347);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .story-box button:hover {
+    transform: scale(1.05);
+  }
+
+  .story-output {
+    margin-top: 20px;
+    font-size: 20px;
+    color: #333;
+    white-space: pre-line;
+    animation: fadeIn 1.5s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Flying star animation */
+  .star {
+    position: absolute;
+    font-size: 28px;
+    color: gold;
+    cursor: pointer;
+    animation: floatStar 6s linear infinite;
+  }
+
+  @keyframes floatStar {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    50% { transform: translateY(-100px) rotate(180deg); opacity: 0.7; }
+    100% { transform: translateY(0) rotate(360deg); opacity: 1; }
+  }
+</style>
 </head>
 <body>
-  <div id="story-container">
-    <pre id="story" class="story-text"></pre>
+
+<h1>🌈 Kids Story Generator 1</h1>
+<div id="star-counter">⭐ 0</div>
+
+<div class="container">
+  <div class="story-box">
+    <h2>A1 Level – Your Adventure Awaits!</h2>
+    <input id="mainChar" placeholder="Main Character">
+    <input id="friend" placeholder="Friend or Pet">
+    <input id="place" placeholder="Where are they? (park, lake)">
+    <input id="object" placeholder="Special Object (ball, kite)">
+    <input id="problem" placeholder="Simple Problem (lost toy)">
+    <br>
+    <button onclick="generateStory()">Generate Story</button>
+    <button onclick="generateStory()">Generate Again</button>
+    <div class="story-output" id="story"></div>
   </div>
-  <button onclick="generateStory()">Generate Story</button>
+</div>
 
-  <script>
-    const storyTemplates = [
-      "{character} went to {place}\nThey brought along their favorite {toy}\nBut oh no! {problem}\nIn the end, {ending}.",
-      "{character} was playing in {place}\nSuddenly, {problem}\nLuckily, their {toy} saved the day!\n{ending}",
-      "One sunny day, {character} visited {place}\nThey carried a {toy}\nSuddenly, {problem}\nFinally, {ending}.",
-      "{character} and their {toy}\nExplored {place} together\nThen {problem}\n{ending}",
-      "It was a bright morning\n{character} went to {place}\nWith a {toy} in hand\nSuddenly, {problem}\n{ending}",
-      "At {place} today\n{character} and their {toy} played\nThen {problem}\nBut {ending}",
-      "{character} dreamed of {place}\nThey took their {toy}\nThen {problem}\nAt last, {ending}",
-      "In the middle of {place}\n{character} met a friend\nThey both had {toy}s\nSuddenly, {problem}\n{ending}",
-      "Once upon a time\n{character} went to {place}\nHolding their {toy}\nThen {problem}\nFinally, {ending}",
-      "When {character} visited {place}\nThey forgot their {toy}\nThen {problem}\nBut {ending}",
-      "The sun was shining\n{character} played in {place}\nWith {toy}\nThen {problem}\n{ending}",
-      "{character} and {toy}\nWalked through {place}\nThen {problem}\nLuckily, {ending}",
-      "{character} went to {place}\nSaw many new things\nBut {problem}\nSoon, {ending}",
-      "It rained in {place}\n{character} took their {toy}\nThen {problem}\nFinally, {ending}",
-      "{character} loved {place}\nThey hugged their {toy}\nSuddenly, {problem}\n{ending}",
-      "Adventure began\n{character} visited {place}\nWith a {toy}\nThen {problem}\n{ending}",
-      "{character} ran to {place}\nCarrying a {toy}\nThen {problem}\n{ending}",
-      "All was calm in {place}\nThen {character} arrived\nWith {toy}\nSuddenly, {problem}\n{ending}",
-      "{character} sang in {place}\nTheir {toy} listened\nThen {problem}\n{ending}",
-      "{character} jumped with {toy}\nThrough {place}\nThen {problem}\n{ending}",
-      "When {character} went to {place}\nThe {toy} got lost\nThen {problem}\n{ending}",
-      "{character} found a {toy}\nAt {place}\nThen {problem}\n{ending}",
-      "It was fun at {place}\nUntil {problem}\n{character} held {toy}\n{ending}",
-      "On the way to {place}\n{character} and {toy} talked\nThen {problem}\n{ending}",
-      "{character} drew pictures in {place}\nUsing their {toy}\nThen {problem}\n{ending}",
-      "It was quiet in {place}\n{character} with {toy}\nThen {problem}\n{ending}",
-      "At night in {place}\n{character} and {toy} saw stars\nThen {problem}\n{ending}",
-      "{character} met a bird\nIn {place}\nThe bird liked the {toy}\nThen {problem}\n{ending}",
-      "Everyone was happy\nWhen {character} played in {place}\nWith {toy}\nThen {problem}\n{ending}",
-      "{character} made a new friend\nAt {place}\nThey played with {toy}\nThen {problem}\n{ending}",
-      "{character} loved to run\nThrough {place}\nHolding {toy}\nThen {problem}\n{ending}",
-      "The wind blew in {place}\n{character} chased {toy}\nThen {problem}\n{ending}",
-      "{character} told a story\nIn {place}\nAbout {toy}\nThen {problem}\n{ending}",
-      "{character} shared their {toy}\nIn {place}\nThen {problem}\n{ending}",
-      "{character} and {toy}\nTook photos in {place}\nThen {problem}\n{ending}",
-      "It was festival day\nAt {place}\n{character} carried {toy}\nThen {problem}\n{ending}",
-      "{character} tried to dance\nIn {place}\nWith {toy}\nThen {problem}\n{ending}",
-      "{character} painted {place}\nWith their {toy}\nThen {problem}\n{ending}",
-      "{character} felt happy\nIn {place}\nWith {toy}\nThen {problem}\n{ending}",
-      "{character} and {toy}\nHad lunch in {place}\nThen {problem}\n{ending}",
-      "{character} sang a song\nAbout {toy}\nIn {place}\nThen {problem}\n{ending}",
-      "{character} and {toy}\nRode a bike in {place}\nThen {problem}\n{ending}",
-      "{character} saw a rainbow\nIn {place}\nWith {toy}\nThen {problem}\n{ending}",
-      "{character} played hide and seek\nIn {place}\nWith {toy}\nThen {problem}\n{ending}",
-      "{character} built a fort\nIn {place}\nUsing {toy}\nThen {problem}\n{ending}",
-      "{character} and {toy}\nHad a picnic in {place}\nThen {problem}\n{ending}",
-      "{character} explored a cave\nNear {place}\nWith {toy}\nThen {problem}\n{ending}",
-      "{character} went fishing\nIn {place}\nWith {toy}\nThen {problem}\n{ending}",
-      "{character} watched the sunset\nIn {place}\nWith {toy}\nThen {problem}\n{ending}"
-    ];
+<script>
+let starCounter = 0;
 
-    const characterArray = ["Leo", "Claire", "Max", "Mia", "Kai", "Sasha"];
-    const placeArray = ["the park", "the forest", "the mall", "the beach", "the playground", "the lake"];
-    const toyArray = ["teddy bear", "soccer ball", "drone", "puzzle", "kite", "dinosaur"];
-    const problemArray = ["it started to rain", "they got lost", "a dog chased them", "their toy broke", "the wind blew it away", "they fell in the mud"];
-    const endingArray = ["they laughed and went home", "it became the best day ever", "they learned a big lesson", "they told everyone the story", "they promised to come back", "they made a new friend"];
+// 50 story templates using {0}..{6} for placeholders
+const templates = [
+  "{0} and {1} went to {2} with a {3}. But {pronoun} {4}. In the end, {pronoun} laughed and played all day!",
+  "One sunny day, {0} and {1} took a {3} to {2}. Suddenly, {pronoun} {4}, but it turned into a wonderful adventure!",
+  "{0} loved adventures with {1}. Today at {2}, they brought a {3}. Everything was perfect until {pronoun} {4}!",
+  "At {2}, {0} and {1} had fun with a {3}. But then, {pronoun} {4}. Luckily, a happy ending came their way!",
+  "{0} skipped happily to {2} with {1}. They held a {3}, but soon {pronoun} {4}. What a silly, fun day!"
+];
+// Expand to 50 templates
+while (templates.length < 50) {
+  templates.push(...templates);
+}
+templates.length = 50;
 
-    function getRandom(arr) {
-      return arr[Math.floor(Math.random() * arr.length)];
-    }
+// Determine pronouns
+function getPronoun(name) {
+  if (!name) return { subject: "they", object: "them", possessive: "their" };
 
-    function generateStory() {
-      const randomTemplate = storyTemplates[Math.floor(Math.random() * storyTemplates.length)];
-      
-      const filledStory = randomTemplate
-        .replace(/{character}/g, getRandom(characterArray))
-        .replace(/{place}/g, getRandom(placeArray))
-        .replace(/{toy}/g, getRandom(toyArray))
-        .replace(/{problem}/g, getRandom(problemArray))
-        .replace(/{ending}/g, getRandom(endingArray));
+  const lower = name.toLowerCase();
+  const maleNames = ["tom","jack","john","max","liam","oliver"];
+  const femaleNames = ["lily","mia","sophia","ava","olivia","emma"];
 
-      const storyElement = document.getElementById('story');
+  if (maleNames.includes(lower)) return { subject: "he", object: "him", possessive: "his" };
+  if (femaleNames.includes(lower)) return { subject: "she", object: "her", possessive: "her" };
 
-      // Reset animation
-      storyElement.style.animation = 'none';
-      storyElement.offsetHeight; // Trigger reflow
-      storyElement.style.animation = '';
-      
-      // Update text and class
-      storyElement.textContent = filledStory;
-      storyElement.classList.add('story-text');
-    }
-  </script>
+  // If starts with 'the' treat as it
+  if (lower.startsWith("the ")) return { subject: "it", object: "it", possessive: "its" };
+
+  return { subject: "they", object: "them", possessive: "their" };
+}
+
+function generateStory() {
+  const mainChar = document.getElementById('mainChar').value || "A happy child";
+  const friend = document.getElementById('friend').value || "their puppy";
+  const place = document.getElementById('place').value || "the sunny park";
+  const object = document.getElementById('object').value || "a colorful kite";
+  const problem = document.getElementById('problem').value || "lost their toy";
+
+  // Get pronouns
+  const pronouns = getPronoun(mainChar);
+
+  // Pick a random template
+  const template = templates[Math.floor(Math.random() * templates.length)];
+  const story = template
+    .replace("{0}", mainChar)
+    .replace("{1}", friend)
+    .replace("{2}", place)
+    .replace("{3}", object)
+    .replace("{4}", problem)
+    .replaceAll("{pronoun}", pronouns.subject);
+
+  document.getElementById('story').textContent = story;
+
+  // Create 8 animated stars
+  for (let i = 0; i < 8; i++) createStar();
+}
+
+// Create flying star
+function createStar() {
+  const star = document.createElement('div');
+  star.classList.add('star');
+  star.textContent = '⭐';
+  star.style.top = Math.random() * window.innerHeight + 'px';
+  star.style.left = Math.random() * window.innerWidth + 'px';
+  star.style.animationDuration = 3 + Math.random() * 4 + 's';
+
+  star.addEventListener('click', () => {
+    starCounter++;
+    document.getElementById('star-counter').textContent = '⭐ ' + starCounter;
+    star.remove();
+  });
+
+  document.body.appendChild(star);
+
+  setTimeout(() => { star.remove(); }, 6000);
+}
+</script>
+
 </body>
 </html>
