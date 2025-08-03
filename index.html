@@ -60,8 +60,8 @@
       white-space: pre-line;
     }
 
-    /* Floating Happy Faces */
-    .happy-face {
+    /* Floating Stars */
+    .star {
       position: absolute;
       font-size: 50px;
       animation: float 10s linear infinite;
@@ -80,6 +80,12 @@
       font-size: 14px;
       color: #333;
     }
+
+    #counter {
+      font-size: 1.2em;
+      margin-top: 10px;
+      color: #ff66b2;
+    }
   </style>
 </head>
 <body>
@@ -97,15 +103,18 @@
     <button onclick="generateStory()">Generate My Story</button>
 
     <div id="story"></div>
+    <div id="counter">⭐ Popped: 0</div>
   </div>
 
   <footer>
     © 2025 Young Learners Curriculum – All Rights Reserved
   </footer>
 
-  <audio id="popSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
+  <audio id="popSound" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
 
   <script>
+    let popCount = 0;
+
     function generateStory() {
       const character = document.getElementById('character').value;
       const place = document.getElementById('place').value;
@@ -121,7 +130,6 @@
       // Determine pronoun (he/she/they/it)
       let pronoun = "they";
       if (!character.includes("and")) {
-        // Singular character → guess pronoun
         pronoun = "it"; 
         if (character.toLowerCase().includes("boy") || character.toLowerCase().includes("man") || character.toLowerCase().includes("dog")) {
           pronoun = "he";
@@ -132,7 +140,7 @@
 
       const storyText = `One day, ${character} went to ${place}.\n` +
                         `${pronoun.charAt(0).toUpperCase() + pronoun.slice(1)} brought their favorite ${toy}.\n` +
-                        `But then, it ${problem}!\n` +
+                        `But then, ${pronoun} ${problem}!\n` +
                         `${character} was worried and ran around.\n` +
                         `Soon, help came and ${ending}.\n` +
                         `It was the best day ever!`;
@@ -140,27 +148,29 @@
       document.getElementById('story').textContent = storyText;
     }
 
-    // Create floating happy faces
-    function createHappyFace() {
-      const face = document.createElement('div');
-      face.className = 'star';
-      face.textContent = '⭐';
-      face.style.left = Math.random() * 90 + 'vw';
-      face.style.animationDuration = 5 + Math.random() * 5 + 's';
+    // Create floating stars
+    function createStar() {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.textContent = '⭐';
+      star.style.left = Math.random() * 90 + 'vw';
+      star.style.animationDuration = 5 + Math.random() * 5 + 's';
 
-      face.addEventListener('click', () => {
+      star.addEventListener('click', () => {
         document.getElementById('popSound').play();
-        face.remove();
+        star.remove();
+        popCount++;
+        document.getElementById('counter').textContent = `⭐ Popped: ${popCount}`;
       });
 
-      document.body.appendChild(face);
+      document.body.appendChild(star);
 
       setTimeout(() => {
-        face.remove();
+        star.remove();
       }, 10000);
     }
 
-    setInterval(createHappyFace, 1500);
+    setInterval(createStar, 1500);
   </script>
 
 </body>
