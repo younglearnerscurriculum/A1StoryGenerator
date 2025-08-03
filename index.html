@@ -1,35 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>🌈 Preschool Custom Story Generator</title>
+<title>🌈 Kids Story Generator 1</title>
 <style>
   body {
-    font-family: Comic Sans MS, sans-serif;
+    font-family: "Comic Sans MS", cursive, sans-serif;
     text-align: center;
-    background: linear-gradient(to bottom, #a7ffeb, #e1f5fe);
-    margin: 0; padding: 0;
+    background: linear-gradient(to bottom, #fce4ec, #f3e5f5);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
+
   h1 {
     color: #ff4081;
     text-shadow: 2px 2px #fff176;
     margin-top: 30px;
   }
-  h2 { color: #3f51b5; margin-top: 10px; }
-  p { color: #4a148c; }
-  
+
+  h2 {
+    color: #3f51b5;
+    margin: 10px 0;
+  }
+
+  p { color: #6a1b9a; }
+
   .input-box {
     margin: 10px;
-    padding: 10px;
+    padding: 12px;
     width: 250px;
     border: 2px solid #ffcc80;
-    border-radius: 15px;
+    border-radius: 20px;
     font-size: 16px;
     outline: none;
     text-align: center;
+    display: block;
   }
+
   .input-box:focus {
     border-color: #ff4081;
-    box-shadow: 0 0 10px #ffccbc;
+    box-shadow: 0 0 12px #ffccbc;
   }
 
   button {
@@ -39,37 +51,44 @@
     background: linear-gradient(to right, #ff7043, #ffca28);
     color: white;
     border: none;
-    border-radius: 15px;
+    border-radius: 20px;
     cursor: pointer;
     transition: 0.3s;
   }
-  button:hover { transform: scale(1.1); background: #ff5722; }
+
+  button:hover {
+    transform: scale(1.1);
+    background: #ff5722;
+  }
 
   #storyOutput {
     margin: 30px auto;
     width: 60%;
-    padding: 15px;
+    max-width: 600px;
+    padding: 20px;
     font-size: 20px;
     color: #1a237e;
     background: #fff8e1;
     border-radius: 20px;
     border: 3px dashed #ffcc80;
+    line-height: 1.5;
   }
 </style>
 </head>
 <body>
-<h1>🌈 365 Custom Story Generator</h1>
-<p>Let's Create a Fun Story!</p>
-<h2>A1 Level – Let’s Create an Adventure!</h2>
+  <h1>🌈 Kids Story Generator 1</h1>
+  <p>Let's Create a Fun Adventure Together!</p>
+  <h2>A1 Level – Your Adventure Awaits!</h2>
 
-<input class="input-box" placeholder="Main Character"><br>
-<input class="input-box" placeholder="Friend or Pet"><br>
-<input class="input-box" placeholder="Where are they? (park, lake)"><br>
-<input class="input-box" placeholder="Special Object (ball, kite)"><br>
-<input class="input-box" placeholder="Simple Problem (lost toy)"><br>
+  <input class="input-box" placeholder="Main Character">
+  <input class="input-box" placeholder="Friend or Pet">
+  <input class="input-box" placeholder="Where are they? (park, lake)">
+  <input class="input-box" placeholder="Special Object (ball, kite)">
+  <input class="input-box" placeholder="Simple Problem (lost toy)">
 
-<button onclick="generateStory()">Generate Story</button>
-<p id="storyOutput"></p>
+  <button onclick="generateStory()">Generate Story</button>
+
+  <p id="storyOutput"></p>
 
 <script>
 function generateStory() {
