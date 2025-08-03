@@ -71,8 +71,7 @@
     bottom: -150px;
     width: 60px;
     height: 80px;
-    background: red;
-    border-radius: 50% 50% 50% 50%;
+    border-radius: 50%;
     animation: floatBalloons 8s linear infinite;
     cursor: pointer;
   }
@@ -89,6 +88,21 @@
     width: 120px;
     display: block;
     margin: 10px auto;
+  }
+  /* Confetti */
+  .confetti {
+    position: absolute;
+    width: 8px;
+    height: 12px;
+    background: red;
+    opacity: 0.8;
+    animation: fall 1s linear forwards;
+  }
+  @keyframes fall {
+    to {
+      transform: translateY(100px) rotate(360deg);
+      opacity: 0;
+    }
   }
 </style>
 </head>
@@ -108,15 +122,12 @@
   <div id="story"></div>
 </div>
 
-<!-- Balloons and Clouds -->
+<!-- Clouds -->
 <div class="cloud" style="width:100px;height:60px;left:0;animation-duration:50s;"></div>
 <div class="cloud" style="width:80px;height:50px;top:120px;left:30px;animation-duration:60s;"></div>
 <div class="cloud" style="width:120px;height:70px;top:80px;left:60px;animation-duration:70s;"></div>
 
-<div class="balloon" style="left:10%;background:pink;"></div>
-<div class="balloon" style="left:40%;background:blue;animation-duration:10s;"></div>
-<div class="balloon" style="left:70%;background:orange;animation-duration:12s;"></div>
-
+<!-- Sound -->
 <audio id="popSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
 
 <footer>
@@ -142,13 +153,36 @@ function generateStory() {
   document.getElementById("story").innerText = story;
 }
 
-/* Balloon Popping */
-document.querySelectorAll('.balloon').forEach(balloon => {
-  balloon.addEventListener('click', () => {
+// Confetti function
+function launchConfetti(x, y) {
+  for (let i = 0; i < 20; i++) {
+    const confetti = document.createElement("div");
+    confetti.classList.add("confetti");
+    confetti.style.left = x + "px";
+    confetti.style.top = y + "px";
+    confetti.style.background = ["#ff0", "#f0f", "#0ff", "#ff6347", "#00ff00"][Math.floor(Math.random()*5)];
+    document.body.appendChild(confetti);
+    setTimeout(() => confetti.remove(), 1000);
+  }
+}
+
+// Random Balloons
+const colors = ["red", "pink", "orange", "yellow", "green", "blue", "purple"];
+for (let i = 0; i < 6; i++) {
+  const balloon = document.createElement("div");
+  balloon.classList.add("balloon");
+  balloon.style.left = Math.random() * 90 + "%";
+  balloon.style.background = colors[Math.floor(Math.random() * colors.length)];
+  balloon.style.animationDuration = 8 + Math.random() * 5 + "s";
+  document.body.appendChild(balloon);
+
+  // Balloon popping with sound + confetti
+  balloon.addEventListener('click', (event) => {
     balloon.style.display = 'none';
     document.getElementById('popSound').play();
+    launchConfetti(event.clientX, event.clientY);
   });
-});
+}
 </script>
 
 </body>
