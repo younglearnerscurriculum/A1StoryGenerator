@@ -2,86 +2,166 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kids Story Generator 1</title>
+
   <style>
     body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
       text-align: center;
-      font-family: 'Comic Sans MS', cursive;
-      background: linear-gradient(to bottom, #aee1f9, #fcefee);
+      background: linear-gradient(to bottom, #aee1f9, #ffffff);
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
     }
+
+    h1 {
+      color: #ff66b2;
+      font-size: 3em;
+      margin-top: 20px;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 20px;
+      padding: 20px;
+      width: 60%;
+      margin: 50px auto;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
     input {
-      margin: 5px;
+      margin: 10px;
       padding: 8px;
       border-radius: 8px;
-      border: 2px solid hotpink;
+      border: 2px solid #ff66b2;
+      font-size: 1em;
+      text-align: center;
     }
+
     button {
-      background-color: hotpink;
+      background-color: #ff66b2;
       color: white;
-      padding: 8px 15px;
-      margin: 10px;
+      padding: 10px 20px;
+      font-size: 1.2em;
       border: none;
-      border-radius: 8px;
-      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #ff4da6;
+    }
+
+    #story {
+      margin-top: 20px;
+      font-size: 1.3em;
+      white-space: pre-line;
+    }
+
+    /* Floating Happy Faces */
+    .happy-face {
+      position: absolute;
+      font-size: 50px;
+      animation: float 10s linear infinite;
       cursor: pointer;
     }
-    #storyOutput {
-      font-size: 20px;
-      margin-top: 20px;
-      white-space: pre-line;
+
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(1); opacity: 1; }
+      50% { transform: translateY(50vh) scale(1.2); }
+      100% { transform: translateY(-10vh) scale(0.8); opacity: 0; }
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 20px;
+      font-size: 14px;
+      color: #333;
     }
   </style>
 </head>
 <body>
-  <h1>🎉 Kids Story Generator 1 🎉</h1>
 
-  <input type="text" id="character" placeholder="Main Character">
-  <input type="text" id="place" placeholder="Place (park, beach)">
-  <input type="text" id="object" placeholder="Special Object (ball, kite)">
-  <input type="text" id="problem" placeholder="Problem (lost toy)">
-  <input type="text" id="solution" placeholder="Solution (found it with a friend)">
-  
-  <br>
-  <button onclick="generateStory()">Generate My Story</button>
-  
-  <p id="storyOutput"></p>
+  <h1>Kids Story Generator 1</h1>
 
-<script>
-function generateStory() {
-  const name = document.getElementById("character").value.trim();
-  const place = document.getElementById("place").value.trim();
-  const object = document.getElementById("object").value.trim();
-  const problem = document.getElementById("problem").value.trim();
-  const solution = document.getElementById("solution").value.trim();
+  <div class="container">
+    <p>Fill in the blanks to create your fun story:</p>
+    <input type="text" id="character" placeholder="Character (e.g., a puppy)">
+    <input type="text" id="place" placeholder="Place (e.g., the park)">
+    <input type="text" id="toy" placeholder="Toy (e.g., a ball)">
+    <input type="text" id="problem" placeholder="Problem (e.g., got lost)">
+    <input type="text" id="ending" placeholder="Ending (e.g., found a new friend)">
+    <br>
+    <button onclick="generateStory()">Generate My Story</button>
 
-  // Detect plural vs singular
-  const isPlural = name.includes(" and ");
-  
-  let subjPronoun, objPronoun, verbBe, possPronoun;
-  
-  if (isPlural) {
-    subjPronoun = "They";
-    objPronoun = "them";
-    verbBe = "were";
-    possPronoun = "their";
-  } else {
-    // Randomly assign he/she/it if single character
-    let gender = Math.random() < 0.33 ? "he" : (Math.random() < 0.5 ? "she" : "it");
-    subjPronoun = gender.charAt(0).toUpperCase() + gender.slice(1);
-    objPronoun = gender === "it" ? "it" : "him/her";
-    verbBe = gender === "it" ? "was" : "was";
-    possPronoun = gender === "it" ? "its" : (gender === "he" ? "his" : "her");
-  }
+    <div id="story"></div>
+  </div>
 
-  const story = `One day, ${name} went to ${place}.
-${subjPronoun} brought ${possPronoun} favorite ${object}.
-But then, ${problem}!
-${name} ${verbBe} worried and ran around.
-Soon, help came and ${solution}.
-It was the best day ever!`;
+  <footer>
+    © 2025 Young Learners Curriculum – All Rights Reserved
+  </footer>
 
-  document.getElementById("storyOutput").innerText = story;
-}
-</script>
+  <audio id="popSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
+
+  <script>
+    function generateStory() {
+      const character = document.getElementById('character').value;
+      const place = document.getElementById('place').value;
+      const toy = document.getElementById('toy').value;
+      const problem = document.getElementById('problem').value;
+      const ending = document.getElementById('ending').value;
+
+      if (!character || !place || !toy || !problem || !ending) {
+        alert('Please fill in all fields!');
+        return;
+      }
+
+      // Determine pronoun (he/she/they/it)
+      let pronoun = "they";
+      if (!character.includes("and")) {
+        // Singular character → guess pronoun
+        pronoun = "it"; 
+        if (character.toLowerCase().includes("boy") || character.toLowerCase().includes("man") || character.toLowerCase().includes("dog")) {
+          pronoun = "he";
+        } else if (character.toLowerCase().includes("girl") || character.toLowerCase().includes("woman") || character.toLowerCase().includes("cat")) {
+          pronoun = "she";
+        }
+      }
+
+      const storyText = `One day, ${character} went to ${place}.\n` +
+                        `${pronoun.charAt(0).toUpperCase() + pronoun.slice(1)} brought their favorite ${toy}.\n` +
+                        `But then, it ${problem}!\n` +
+                        `${character} was worried and ran around.\n` +
+                        `Soon, help came and ${ending}.\n` +
+                        `It was the best day ever!`;
+
+      document.getElementById('story').textContent = storyText;
+    }
+
+    // Create floating happy faces
+    function createHappyFace() {
+      const face = document.createElement('div');
+      face.className = 'happy-face';
+      face.textContent = '😊';
+      face.style.left = Math.random() * 90 + 'vw';
+      face.style.animationDuration = 5 + Math.random() * 5 + 's';
+
+      face.addEventListener('click', () => {
+        document.getElementById('popSound').play();
+        face.remove();
+      });
+
+      document.body.appendChild(face);
+
+      setTimeout(() => {
+        face.remove();
+      }, 10000);
+    }
+
+    setInterval(createHappyFace, 1500);
+  </script>
+
 </body>
 </html>
