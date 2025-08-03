@@ -21,12 +21,27 @@
       margin-top: 20px;
     }
 
+    #counter {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #ff9900;
+      text-shadow: 0 0 10px #fff;
+      margin-top: 10px;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
     .container {
       background-color: white;
       border-radius: 20px;
       padding: 20px;
       width: 60%;
-      margin: 50px auto;
+      margin: 30px auto;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     }
 
@@ -60,12 +75,13 @@
       white-space: pre-line;
     }
 
-    /* Floating Stars */
+    /* Floating twinkling stars */
     .star {
       position: absolute;
-      font-size: 50px;
-      animation: float 10s linear infinite;
+      font-size: 40px;
+      animation: float 10s linear infinite, twinkle 1.5s infinite;
       cursor: pointer;
+      user-select: none;
     }
 
     @keyframes float {
@@ -74,23 +90,23 @@
       100% { transform: translateY(-10vh) scale(0.8); opacity: 0; }
     }
 
+    @keyframes twinkle {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
     footer {
       margin-top: 40px;
       padding: 20px;
       font-size: 14px;
       color: #333;
     }
-
-    #counter {
-      font-size: 1.2em;
-      margin-top: 10px;
-      color: #ff66b2;
-    }
   </style>
 </head>
 <body>
 
   <h1>Kids Story Generator 1</h1>
+  <div id="counter">⭐ Stars Popped: 0 ⭐</div>
 
   <div class="container">
     <p>Fill in the blanks to create your fun story:</p>
@@ -103,14 +119,13 @@
     <button onclick="generateStory()">Generate My Story</button>
 
     <div id="story"></div>
-    <div id="counter">⭐ Popped: 0</div>
   </div>
 
   <footer>
     © 2025 Young Learners Curriculum – All Rights Reserved
   </footer>
 
-  <audio id="popSound" src="https://www.soundjay.com/button/beep-07.wav" preload="auto"></audio>
+  <audio id="popSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
 
   <script>
     let popCount = 0;
@@ -127,7 +142,7 @@
         return;
       }
 
-      // Determine pronoun (he/she/they/it)
+      // Determine pronoun (he/she/it/they)
       let pronoun = "they";
       if (!character.includes("and")) {
         pronoun = "it"; 
@@ -139,16 +154,16 @@
       }
 
       const storyText = `One day, ${character} went to ${place}.\n` +
-                        `${pronoun.charAt(0).toUpperCase() + pronoun.slice(1)} brought their favorite ${toy}.\n` +
-                        `But then, ${pronoun} ${problem}!\n` +
-                        `${character} was worried and ran around.\n` +
+                        `${pronoun.charAt(0).toUpperCase() + pronoun.slice(1)} brought a ${toy}.\n` +
+                        `But then, it ${problem}!\n` +
+                        `${character} felt very worried.\n` +
                         `Soon, help came and ${ending}.\n` +
                         `It was the best day ever!`;
 
       document.getElementById('story').textContent = storyText;
     }
 
-    // Create floating stars
+    // Floating stars
     function createStar() {
       const star = document.createElement('div');
       star.className = 'star';
@@ -160,7 +175,7 @@
         document.getElementById('popSound').play();
         star.remove();
         popCount++;
-        document.getElementById('counter').textContent = `⭐ Popped: ${popCount}`;
+        document.getElementById('counter').textContent = `⭐ Stars Popped: ${popCount} ⭐`;
       });
 
       document.body.appendChild(star);
