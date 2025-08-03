@@ -6,27 +6,27 @@
 <body>
     <h1>🌈 365 Custom Story Generator</h1>
     <p>Let's Create a Fun Story!</p>
+
+    <h2>A1 Level – Let’s Create an Adventure!</h2>
+
+    <input type="text" placeholder="Main Character">
+    <input type="text" placeholder="Friend or Pet">
+    <input type="text" placeholder="Where are they? (park, lake)">
+    <input type="text" placeholder="Special Object (ball, kite)">
+    <input type="text" placeholder="Simple Problem (lost toy)">
+    
+    <br><br>
+    <button onclick="generateStory()">Generate Story</button>
+
+    <p id="storyOutput"></p>
+
+    <script>
+    function generateStory() {
+        const inputs = document.querySelectorAll('input');
+        const story = `One day, ${inputs[0].value} and ${inputs[1].value} went to the ${inputs[2].value}.
+        They had a ${inputs[3].value} with them. Suddenly, they faced a problem: ${inputs[4].value}!`;
+        document.getElementById('storyOutput').innerText = story;
+    }
+    </script>
 </body>
 </html>
-<h2>A1 Level – Let’s Create an Adventure!</h2>
-
-<input type="text" placeholder="Main Character">
-<input type="text" placeholder="Friend or Pet">
-<input type="text" placeholder="Where are they? (park, lake)">
-<input type="text" placeholder="Special Object (ball, kite)">
-<input type="text" placeholder="Simple Problem (lost toy)">
-
-<br><br>
-<button onclick="generateStory()">Generate Story</button>
-
-<p id="storyOutput"></p>
-
-<script>
-function generateStory() {
-    const inputs = document.querySelectorAll('input');
-    const story = `One day, ${inputs[0].value} and ${inputs[1].value} went to the ${inputs[2].value}. 
-    They had a ${inputs[3].value} with them. Suddenly, they faced a problem: ${inputs[4].value}!`;
-    document.getElementById('storyOutput').innerText = story;
-}
-</script>
-
