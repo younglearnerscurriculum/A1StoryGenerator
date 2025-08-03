@@ -1,211 +1,155 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>🌈 Kids Story Generator 1</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kids Story Generator 1</title>
 <style>
   body {
     font-family: "Comic Sans MS", cursive, sans-serif;
     text-align: center;
-    background: linear-gradient(to bottom, #bbdefb, #e3f2fd);
-    margin: 0;
-    padding: 0;
+    background: linear-gradient(to top, #87CEFA, #ffffff);
     overflow: hidden;
   }
-
-  /* Logo */
-  .logo {
-    width: 180px;
+  h1 {
+    color: #ff69b4;
+    font-size: 3em;
+    margin-top: 40px;
+  }
+  .generator-box {
+    background: rgba(255,255,255,0.85);
+    padding: 20px;
+    width: 70%;
+    margin: auto;
+    border-radius: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  }
+  input {
+    margin: 10px;
+    padding: 8px;
+    font-size: 1.2em;
+    border-radius: 8px;
+    border: 2px solid #ff69b4;
+    text-align: center;
+  }
+  button {
+    background-color: #ff69b4;
+    color: white;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  button:hover {
+    background-color: #ff1493;
+  }
+  #story {
+    font-size: 1.5em;
+    color: #333;
     margin-top: 20px;
-    animation: bounceIn 2s;
+    padding: 20px;
   }
-
-  @keyframes bounceIn {
-    0% { transform: scale(0.5); opacity: 0; }
-    60% { transform: scale(1.2); opacity: 1; }
-    100% { transform: scale(1); }
-  }
-
   /* Floating Clouds */
   .cloud {
     position: absolute;
-    width: 200px;
-    height: 120px;
-    background: white;
-    border-radius: 100px;
     top: 50px;
-    left: -250px;
-    animation: moveClouds 60s linear infinite;
-    opacity: 0.8;
-  }
-  .cloud::before, .cloud::after {
-    content: '';
-    position: absolute;
     background: white;
-    width: 150px;
-    height: 150px;
-    top: -50px;
-    left: 20px;
     border-radius: 50%;
+    opacity: 0.8;
+    animation: floatClouds 40s linear infinite;
   }
-  .cloud::after {
-    width: 100px;
-    height: 100px;
-    top: -40px;
-    left: 100px;
+  @keyframes floatClouds {
+    from { left: -200px; }
+    to { left: 100%; }
   }
-
-  @keyframes moveClouds {
-    0% { left: -250px; }
-    100% { left: 110%; }
-  }
-
-  /* Floating Balloons */
+  /* Balloons */
   .balloon {
     position: absolute;
     bottom: -150px;
     width: 60px;
     height: 80px;
-    background-color: red;
+    background: red;
     border-radius: 50% 50% 50% 50%;
-    animation: floatBalloons 15s ease-in-out infinite;
-  }
-  .balloon::after {
-    content: '';
-    position: absolute;
-    width: 2px;
-    height: 40px;
-    background: gray;
-    top: 80px;
-    left: 29px;
+    animation: floatBalloons 8s linear infinite;
+    cursor: pointer;
   }
   @keyframes floatBalloons {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    50% { transform: translateY(-600px) rotate(10deg); opacity: 0.8; }
-    100% { transform: translateY(-1200px) rotate(-10deg); opacity: 0; }
+    from { transform: translateY(0); }
+    to { transform: translateY(-120vh); }
   }
-
-  h1 {
-    color: #ff4081;
-    text-shadow: 2px 2px #fff176;
-    margin-top: 20px;
-  }
-
-  h2 {
-    color: #3f51b5;
-    margin: 10px 0;
-  }
-
-  p { color: #6a1b9a; }
-
-  .input-box {
-    margin: 10px;
-    padding: 12px;
-    width: 250px;
-    border: 2px solid #ffcc80;
-    border-radius: 20px;
-    font-size: 16px;
-    outline: none;
-    text-align: center;
-    display: block;
-  }
-
-  .input-box:focus {
-    border-color: #ff4081;
-    box-shadow: 0 0 12px #ffccbc;
-  }
-
-  .input-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  button {
-    margin-top: 20px;
-    padding: 12px 25px;
-    font-size: 18px;
-    background: linear-gradient(to right, #ff7043, #ffca28);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-
-  button:hover {
-    transform: scale(1.1);
-    background: #ff5722;
-  }
-
-  #storyOutput {
-    margin: 30px auto;
-    width: 60%;
-    max-width: 600px;
-    padding: 20px;
-    font-size: 20px;
-    color: #1a237e;
-    background: #fff8e1;
-    border-radius: 20px;
-    border: 3px dashed #ffcc80;
-    line-height: 1.5;
-  }
-
-  /* Footer */
   footer {
-    position: fixed;
-    bottom: 10px;
-    width: 100%;
-    font-size: 14px;
-    color: #5d4037;
-    font-weight: bold;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.6);
-    padding: 5px 0;
-    border-top: 2px solid #ffcc80;
+    margin-top: 40px;
+    font-size: 0.9em;
+    color: #333;
+  }
+  footer img {
+    width: 120px;
+    display: block;
+    margin: 10px auto;
   }
 </style>
 </head>
 <body>
 
-  <!-- Clouds -->
-  <div class="cloud" style="top:80px; animation-delay:0s;"></div>
-  <div class="cloud" style="top:150px; animation-delay:20s; transform: scale(0.7);"></div>
-  <div class="cloud" style="top:50px; animation-delay:40s; transform: scale(1.2);"></div>
+<h1>🎈 Kids Story Generator 1 🎈</h1>
 
-  <!-- Balloons -->
-  <div class="balloon" style="left:20%; background-color: #ff4081; animation-delay:0s;"></div>
-  <div class="balloon" style="left:50%; background-color: #42a5f5; animation-delay:3s;"></div>
-  <div class="balloon" style="left:80%; background-color: #ffca28; animation-delay:6s;"></div>
+<div class="generator-box">
+  <p>Fill in the blanks to create your fun story:</p>
+  <input type="text" id="character" placeholder="Character (e.g., a puppy)">
+  <input type="text" id="place" placeholder="Place (e.g., the park)">
+  <input type="text" id="toy" placeholder="Toy (e.g., a ball)">
+  <input type="text" id="problem" placeholder="Problem (e.g., got lost)">
+  <input type="text" id="ending" placeholder="Ending (e.g., found a new friend)">
+  <br>
+  <button onclick="generateStory()">Generate My Story</button>
+  <div id="story"></div>
+</div>
 
-  <!-- Logo -->
-  <img src="1.png" alt="Young Learners Curriculum Logo" class="logo">
+<!-- Balloons and Clouds -->
+<div class="cloud" style="width:100px;height:60px;left:0;animation-duration:50s;"></div>
+<div class="cloud" style="width:80px;height:50px;top:120px;left:30px;animation-duration:60s;"></div>
+<div class="cloud" style="width:120px;height:70px;top:80px;left:60px;animation-duration:70s;"></div>
 
-  <h1>🌈 Kids Story Generator 1</h1>
-  <p>Let's Create a Fun Adventure Together!</p>
-  <h2>A1 Level – Your Adventure Awaits!</h2>
+<div class="balloon" style="left:10%;background:pink;"></div>
+<div class="balloon" style="left:40%;background:blue;animation-duration:10s;"></div>
+<div class="balloon" style="left:70%;background:orange;animation-duration:12s;"></div>
 
-  <div class="input-container">
-    <input class="input-box" placeholder="Main Character">
-    <input class="input-box" placeholder="Friend or Pet">
-    <input class="input-box" placeholder="Where are they? (park, lake)">
-    <input class="input-box" placeholder="Special Object (ball, kite)">
-    <input class="input-box" placeholder="Simple Problem (lost toy)">
-  </div>
+<audio id="popSound" src="https://www.soundjay.com/buttons/sounds/button-16.mp3" preload="auto"></audio>
 
-  <button onclick="generateStory()">Generate Story</button>
-
-  <p id="storyOutput"></p>
-
-  <footer>© Young Learners Curriculum 2025 – All Rights Reserved</footer>
+<footer>
+  <img src="1.png" alt="Young Learners Curriculum Logo">
+  <p>© 2025 Young Learners Curriculum – All Rights Reserved</p>
+</footer>
 
 <script>
 function generateStory() {
-  const i = document.querySelectorAll('.input-box');
-  const story = `One sunny day, ${i[0].value} and ${i[1].value} went to the ${i[2].value}. 
-  They brought a ${i[3].value} to play with. Suddenly, oh no! ${i[4].value}! 
-  But together, they solved the problem and had the best adventure ever! 🌟`;
-  document.getElementById('storyOutput').innerText = story;
+  const character = document.getElementById("character").value || "a little cat";
+  const place = document.getElementById("place").value || "the forest";
+  const toy = document.getElementById("toy").value || "a kite";
+  const problem = document.getElementById("problem").value || "got stuck in a tree";
+  const ending = document.getElementById("ending").value || "found a happy ending";
+
+  const story = `One day, ${character} went to ${place}. 
+  They brought their favorite ${toy}. 
+  But then, it ${problem}! 
+  ${character} was worried and ran around. 
+  Soon, help came and ${ending}. 
+  It was the best day ever!`;
+
+  document.getElementById("story").innerText = story;
 }
+
+/* Balloon Popping */
+document.querySelectorAll('.balloon').forEach(balloon => {
+  balloon.addEventListener('click', () => {
+    balloon.style.display = 'none';
+    document.getElementById('popSound').play();
+  });
+});
 </script>
+
 </body>
 </html>
