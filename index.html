@@ -1,8 +1,9 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>A1 Rough Draft Story Generator</title>
   <style>
     body {
@@ -20,7 +21,7 @@
       border: 2px solid #ff8b94;
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 16/9;
       width: 90vw;
       max-width: 1280px;
       padding: 20px;
@@ -29,26 +30,30 @@
       flex-direction: column;
       overflow: hidden;
     }
-    .header { text-align: center; flex: 0 0 auto; }
+    .header { text-align: center; }
     .header h1 { margin: 0; color: #333; }
     .header p { margin: 5px 0 15px; font-size: 1em; }
+
     .input-area {
-      flex: 0 0 auto;
-      display: flex; flex-wrap: wrap;
-      gap: 8px; justify-content: center;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
       margin-bottom: 10px;
     }
     .input-area input {
-      padding: 6px; border-radius: 6px;
+      padding: 6px;
+      border-radius: 6px;
       border: 1px solid #999;
       font-size: 0.9em;
       width: calc(33% - 16px);
       min-width: 120px;
       text-align: center;
     }
+
     .button-area {
-      flex: 0 0 auto;
-      display: flex; gap: 10px;
+      display: flex;
+      gap: 10px;
       justify-content: center;
       margin-bottom: 10px;
     }
@@ -63,9 +68,11 @@
       transition: background 0.2s;
     }
     button:hover { background: #ff6f69; }
+
     .story-area {
-      flex: 1 1 auto;
-      display: flex; gap: 10px;
+      flex: 1;
+      display: flex;
+      gap: 10px;
       overflow: hidden;
     }
     #story, #story-editor {
@@ -75,17 +82,23 @@
       border: 1px solid #ccc;
       font-size: 1em;
       line-height: 1.4;
-      width: 50%; height: 100%;
+      width: 50%;
+      height: 100%;
       box-sizing: border-box;
       overflow-y: auto;
       white-space: pre-wrap;
     }
-    #story-editor { resize: none; font-family: inherit; display: none; }
+    #story { opacity: 1; }
+    #story-editor {
+      resize: none;
+      font-family: inherit;
+      display: none;
+    }
+
     footer {
-      flex: 0 0 auto;
+      text-align: center;
       font-size: 0.75em;
       color: #666;
-      text-align: center;
       margin-top: 10px;
     }
   </style>
@@ -96,6 +109,7 @@
       <h1>A1 Rough Draft Story Generator</h1>
       <p>Fill in words and generate a story, then edit it!</p>
     </div>
+
     <div class="input-area">
       <input id="name" placeholder="Name (e.g., Tom)">
       <input id="friend" placeholder="Friend (e.g., Ana)">
@@ -104,68 +118,71 @@
       <input id="action" placeholder="Action (e.g., run)">
       <input id="feeling" placeholder="Feeling (e.g., happy)">
     </div>
+
     <div class="button-area">
       <button id="generate-btn">📖 Generate Story</button>
     </div>
+
     <div class="story-area">
       <div id="story">Your story will appear here.</div>
       <textarea id="story-editor" placeholder="Edit your story..."></textarea>
     </div>
+
     <footer>All rights reserved Young Learners Curriculum 2025</footer>
   </div>
 
   <script>
     const templates = [
-      "[name] and [friend] meet at the [place]. They bring a [object] and [action] happily. They feel [feeling] as the sun sets. It was a wonderful day.",
-      "Early in the morning, [name] and [friend] arrive at the [place]. They carry a [object] and begin to [action]. They laugh together and feel [feeling]. What fun!",
-      "At the [place], [name] waves to [friend]. They share a [object] and decide to [action]. Both feel so [feeling]. This makes their hearts happy.",
-      "One sunny afternoon, [name] spots a [object] at the [place]. [friend] helps with the [action]. They smile big and feel [feeling]. The day grows brighter.",
-      "[name] asks [friend] to come to the [place]. They bring a [object] to [action]. Together they feel [feeling]. It becomes a perfect memory.",
-      "In the quiet [place], [name] holds a [object]. [friend] cheers and they start to [action]. They giggle softly and feel [feeling]. A calm joy fills the air.",
-      "During the golden hour at the [place], [name] and [friend] share a [object]. They try to [action] with smiles. They feel so [feeling]. The sunset kisses their day.",
-      "One windy day at the [place], [name] flies a [object]. [friend] joins to [action]. They shout with joy and feel [feeling]. The wind carries their laughter.",
-      "[name] and [friend] walk through the [place]. They discover a [object] on the ground. They [action] it together. They feel [feeling]. A small adventure begins.",
-      "In the busy [place], [name] meets [friend]. They hold a [object] tightly. Together they start to [action]. They feel so [feeling]. Their laughter turns heads.",
-      "On a gentle hill by the [place], [name] and [friend] place a [object]. They both [action]. They sigh with peace and feel [feeling]. The view warms their hearts.",
-      "At the edge of the [place], [name] picks up a [object]. [friend] encourages them to [action]. They grin and feel [feeling]. The moment feels like magic.",
-      "[name] and [friend] cross a small bridge at the [place]. They hold a [object] in one hand. They [action] barefoot. They feel [feeling]. The water sparkles below.",
-      "In the shade of a tree at the [place], [name] sets down a [object]. [friend] joins to [action]. They whisper softly and feel [feeling]. Time seems to pause.",
-      "[name] leads [friend] to the [place] with a [object]. They both decide to [action]. They cheer loudly and feel [feeling]. Their spirits soar high.",
-      "One foggy morning at the [place], [name] finds a lost [object]. [friend] helps with the [action]. They comfort each other and feel [feeling]. A friendship grows.",
-      "[name] and [friend] race to the [place]. They clutch a [object] tightly. They start to [action]. They feel [feeling]. The air hums with excitement.",
-      "Under a rainbow at the [place], [name] and [friend] share a [object]. They [action] with delight. They feel [feeling]. Colors dance around them.",
-      "At sunset by the [place], [name] and [friend] carry a [object]. They try to [action] together. They feel [feeling]. The sky paints their joy.",
-      "On a rainy day at the [place], [name] opens a [object]. [friend] helps to [action]. They splash puddles and feel [feeling]. Gloom turns to giggles.",
-      "In the quiet of the [place], [name] and [friend] hide a [object]. They whisper plans to [action]. They feel [feeling]. A secret adventure awaits.",
-      "During a picnic at the [place], [name] brings a [object]. [friend] joins to [action]. They share snacks and feel [feeling]. The breeze tastes sweet.",
-      "[name] and [friend] climb a small hill at the [place]. They hold a [object] high. They both [action]. They feel [feeling]. The world seems to cheer.",
-      "At the end of a path in the [place], [name] meets [friend]. They reveal a shiny [object]. They leap to [action]. They feel [feeling]. Their hearts beat fast.",
-      "On a quiet bench at the [place], [name] places a [object]. [friend] sits close and they [action]. They feel [feeling]. Peace fills the moment.",
-      "[name] and [friend] stand near a pond at the [place]. They skip a [object] across water. They giggle and feel [feeling]. Ripples carry their joy.",
-      "Under a starry sky at the [place], [name] and [friend] hold a [object]. They softly [action]. They feel [feeling]. The night listens kindly.",
-      "In the morning mist at the [place], [name] spots a [object]. [friend] helps to [action]. They smile and feel [feeling]. Dew sparkles like diamonds.",
-      "[name] and [friend] find an old [object] at the [place]. They polish it and [action]. They feel [feeling]. Memories come alive.",
-      "At a wooden gate to the [place], [name] rings a bell [object]. [friend] cheers to [action]. They feel [feeling]. The gate swings open softly.",
-      "On a winding trail in the [place], [name] and [friend] follow a map [object]. They bravely [action]. They feel [feeling]. Every step feels grand.",
-      "At a quiet corner of the [place], [name] offers a [object] to [friend]. They agree to [action]. They feel [feeling]. Friendship blooms.",
-      "During golden sunset at the [place], [name] and [friend] build with a [object]. They [action] creatively. They feel [feeling]. Their art shines bright.",
-      "[name] and [friend] race boats [object] on a stream at the [place]. They cheer to [action]. They feel [feeling]. The boats glide swiftly.",
-      "At a hidden garden in the [place], [name] finds a glowing [object]. [friend] helps to [action]. They feel [feeling]. Magic fills the air.",
-      "One windy evening at the [place], [name] and [friend] fly a [object]. They laugh to [action]. They feel [feeling]. Kites dance above.",
-      "[name] and [friend] share a lantern [object] at the [place]. They softly [action]. They feel [feeling]. Light guides their way.",
-      "At sunrise near the [place], [name] and [friend] hold a [object]. They gently [action]. They feel [feeling]. A new day begins.",
-      "[name] and [friend] rest under a tree at the [place] with a [object]. They quietly [action]. They feel [feeling]. Nature hums softly.",
-      "On a bright morning at the [place], [name] and [friend] carry a [object]. They join to [action]. They feel [feeling]. Joy lights their steps.",
-      "[name] and [friend] visit an old fountain at the [place]. They place a [object]. They laugh as they [action]. They feel [feeling]. Water sparkles around.",
-      "In the heart of the [place], [name] offers a [object] to [friend]. They promise to [action]. They feel [feeling]. Trust blossoms warmly.",
-      "One cloudy afternoon at the [place], [name] and [friend] share a [object]. They bravely [action]. They feel [feeling]. Clouds part for smiles.",
-      "[name] and [friend] cross a wooden bridge at the [place]. They hold a [object]. They start to [action]. They feel [feeling]. Each step echoes adventure.",
-      "At a field of flowers in the [place], [name] picks a petal [object]. They gently [action]. They feel [feeling]. Blossoms sway in greeting.",
-      "During a summer breeze at the [place], [name] and [friend] share a [object]. They cheer to [action]. They feel [feeling]. Wind sings their happiness.",
-      "One quiet evening at the [place], [name] and [friend] light a candle [object]. They softly [action]. They feel [feeling]. Candlelight warms their souls.",
-      "[name] and [friend] find an old key [object] at the [place]. They wonder and [action]. They feel [feeling]. Doors to dreams stand open.",
-      "At a tall tower at the [place], [name] and [friend] hold a [object]. They anxiously [action]. They feel [feeling]. The view rewards their courage.",
-      "[name] and [friend] end their day at the [place] with a [object]. They hug and [action]. They feel [feeling]. Memories glow softly."    ];
+      "[name] and [friend] went to the [place]. They carried a [object] and started to [action]. They felt very [feeling] the whole time. It was a wonderful day.",
+      "One sunny morning, [name] met [friend] at the [place]. They brought a [object] to [action] together. They both felt [feeling] and laughed. The day was perfect.",
+      "[name] walked to the [place] with [friend]. They held a [object] and liked to [action]. They felt [feeling] as they played. It was so much fun.",
+      "[name] saw [friend] waiting at the [place]. They had a [object] and began to [action]. They felt [feeling] and smiled a lot. It was a happy afternoon.",
+      "[name] and [friend] went outside to the [place]. They used a [object] to [action]. They felt [feeling] together. The sun shined on them.",
+      "One day, [name] and [friend] visited the [place]. They carried a [object] and tried to [action]. They felt [feeling] after they finished. It was a great day.",
+      "[name] ran to the [place] with [friend]. They played with a [object] and [action]. They felt [feeling] together. The evening was calm.",
+      "[name] met [friend] near the [place]. They had a [object] and started to [action]. They felt [feeling] as they laughed. It was a beautiful day.",
+      "[name] and [friend] went walking to the [place]. They found a [object] and decided to [action]. They both felt [feeling]. It was a special moment.",
+      "[name] and [friend] were at the [place]. They played with a [object] and [action]. They felt [feeling] and laughed loudly. The day felt like magic.",
+      "One morning, [name] and [friend] visited the [place]. They carried a [object] to [action] together. They felt [feeling] the whole time. It was fun for both.",
+      "[name] and [friend] walked into the [place]. They held a [object] and started to [action]. They felt [feeling] as the wind blew. They had a good day.",
+      "[name] called [friend] to go to the [place]. They brought a [object] and began to [action]. They felt [feeling] and played all day. It was exciting.",
+      "[name] and [friend] met at the [place]. They saw a [object] and started to [action]. They felt [feeling] with each other. It was a happy time.",
+      "[name] and [friend] went for a walk to the [place]. They brought a [object] to [action]. They felt [feeling] as the sun set. It was a wonderful day.",
+      "[name] went to the [place] with [friend]. They carried a [object] and tried to [action]. They felt [feeling] together. The day was nice.",
+      "[name] and [friend] liked to visit the [place]. They played with a [object] and [action]. They felt [feeling] while playing. It was a great morning.",
+      "[name] and [friend] ran to the [place]. They had a [object] and started to [action]. They felt [feeling] together. The sky was bright.",
+      "[name] and [friend] went to the [place]. They used a [object] to [action]. They felt [feeling] and smiled. It was a good day.",
+      "[name] and [friend] were walking in the [place]. They saw a [object] and began to [action]. They felt [feeling] and happy. The air was fresh.",
+      "[name] and [friend] missed the [place] together. They carried a [object] and started to [action]. They felt [feeling]. It was fun for them.",
+      "[name] ran to meet [friend] at the [place]. They carried a [object] to [action]. They felt [feeling] and excited. It was a joyful day.",
+      "[name] and [friend] liked the [place] a lot. They brought a [object] and started to [action]. They felt [feeling] while playing. It was the best.",
+      "One afternoon, [name] and [friend] visited the [place]. They played with a [object] and [action]. They felt [feeling]. The day was sunny.",
+      "[name] and [friend] wanted to go to the [place]. They carried a [object] and [action]. They felt [feeling] and smiled. It was a great visit.",
+      "[name] and [friend] spent the day at the [place]. They played with a [object] and [action]. They felt [feeling] together. The sky was clear.",
+      "[name] and [friend] walked slowly to the [place]. They held a [object] and began to [action]. They felt [feeling] and calm. It was peaceful.",
+      "[name] and [friend] liked to play at the [place]. They had a [object] and started to [action]. They felt [feeling] all day. It was wonderful.",
+      "[name] and [friend] saw the [place] from far away. They ran with a [object] to [action]. They felt [feeling] and laughed. The day was bright.",
+      "[name] and [friend] enjoyed the [place] very much. They played with a [object] and [action]. They felt [feeling] as the day ended. It was special.",
+      "[name] and [friend] were happy at the [place]. They used a [object] to [action]. They felt [feeling] together. It was a good day.",
+      "[name] and [friend] smiled at the [place]. They brought a [object] and started to [action]. They felt [feeling] in the sun. It was fun.",
+      "[name] and [friend] liked to [action] at the [place]. They had a [object]. They felt [feeling] while playing. The day was happy.",
+      "[name] and [friend] visited the [place] after lunch. They carried a [object] to [action]. They felt [feeling] together. The air was fresh.",
+      "[name] and [friend] spent time at the [place]. They had a [object] and started to [action]. They felt [feeling] and laughed. It was perfect.",
+      "[name] and [friend] went running to the [place]. They held a [object] and began to [action]. They felt [feeling] together. The day was bright.",
+      "[name] and [friend] played at the [place] today. They used a [object] to [action]. They felt [feeling] and happy. It was fun.",
+      "[name] and [friend] liked visiting the [place]. They carried a [object] to [action]. They felt [feeling] together. The day was calm.",
+      "[name] and [friend] met up at the [place]. They held a [object] and [action]. They felt [feeling] the whole time. It was nice.",
+      "[name] and [friend] enjoyed walking to the [place]. They played with a [object] and [action]. They felt [feeling] in the sun. It was a joyful day.",
+      "[name] and [friend] went to the [place] in the morning. They had a [object] and began to [action]. They felt [feeling] and smiled. It was beautiful.",
+      "[name] and [friend] met at the [place] after school. They brought a [object] to [action]. They felt [feeling] together. It was very fun.",
+      "[name] and [friend] loved the [place] very much. They carried a [object] and [action]. They felt [feeling] and free. The day was bright.",
+      "[name] and [friend] went to the [place] to play. They had a [object] and [action]. They felt [feeling] together. It was exciting.",
+      "[name] and [friend] were laughing in the [place]. They used a [object] to [action]. They felt [feeling] as they played. It was a sunny day.",
+      "[name] and [friend] walked into the [place] slowly. They held a [object] and [action]. They felt [feeling] and relaxed. It was peaceful.",
+      "[name] and [friend] visited the [place] after breakfast. They brought a [object] and [action]. They felt [feeling] while playing. It was great.",
+      "[name] and [friend] enjoyed playing at the [place]. They carried a [object] and [action]. They felt [feeling] together. The day was good.",
+      "[name] and [friend] spent the morning in the [place]. They used a [object] to [action]. They felt [feeling] happily. It was the best day."
+    ];
 
     function fillPlaceholders(text) {
       const inputs = {
@@ -184,7 +201,8 @@
     function generateStory() {
       const template = templates[Math.floor(Math.random() * templates.length)];
       let storyText = fillPlaceholders(template);
-      storyText = storyText.replace(/\.\s*/g, '.\n');
+      // insert newline after ., ! or ?
+      storyText = storyText.replace(/([.!?])\s*/g, '$1\n');
       document.getElementById('story').textContent = storyText;
       const editor = document.getElementById('story-editor');
       editor.style.display = 'block';
@@ -195,3 +213,4 @@
   </script>
 </body>
 </html>
+```
