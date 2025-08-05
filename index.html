@@ -115,7 +115,6 @@
     </div>
     <div class="button-area">
       <button id="generate-btn">📖 Generate Story</button>
-      <button id="regenerate-btn">🔄 Regenerate Story</button>
     </div>
     <div class="story-area">
       <div id="story">Your story will appear here.</div>
@@ -168,7 +167,7 @@
       "[name] and [friend] decide to [action] at the [place], bring a [object] and start playing, feel [feeling]."
     ];
 
-    function fillPlaceholders(text) {
+   function fillPlaceholders(text) {
       const inputs = {
         '[name]': document.getElementById('name').value.trim() || 'Someone',
         '[friend]': document.getElementById('friend').value.trim() || 'a friend',
@@ -184,20 +183,16 @@
       return result;
     }
 
-    let currentTemplate = null;
-    function updateStory(isRegenerate = false) {
-      if (!isRegenerate || !currentTemplate) {
-        currentTemplate = templates[Math.floor(Math.random() * templates.length)];
-      }
-      const storyText = fillPlaceholders(currentTemplate);
+    function generateStory() {
+      const template = templates[Math.floor(Math.random() * templates.length)];
+      const storyText = fillPlaceholders(template);
       document.getElementById('story').textContent = storyText;
       const editor = document.getElementById('story-editor');
       editor.style.display = 'block';
       editor.value = storyText;
     }
 
-    document.getElementById('generate-btn').addEventListener('click', () => updateStory(false));
-    document.getElementById('regenerate-btn').addEventListener('click', () => updateStory(true));
+    document.getElementById('generate-btn').addEventListener('click', generateStory);
   </script>
 </body>
 </html>
