@@ -1,262 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kids Story Generator</title>
-<style>
-  body {
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(to bottom, #ffe1f0, #d9f2ff);
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  h1 {
-    text-align: center;
-    font-size: 2.5rem;
-    color: #ff4da6;
-    margin-top: 20px;
-  }
-
-  #star-counter {
-    position: fixed;
-    top: 15px;
-    right: 20px;
-    font-size: 1.5rem;
-    color: gold;
-    background: rgba(255, 255, 255, 0.6);
-    padding: 8px 15px;
-    border-radius: 15px;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
-  }
-
-  .container {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .story-box {
-    background: white;
-    padding: 25px;
-    border-radius: 20px;
-    text-align: center;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    width: 60%;
-    max-width: 900px;
-    min-height: 500px;
-  }
-
-  .story-box input {
-    width: 60%;
-    padding: 10px;
-    margin: 8px 0;
-    border-radius: 20px;
-    border: 2px solid #ffb347;
-    font-size: 16px;
-    text-align: center;
-  }
-
-  .story-box button {
-    margin-top: 15px;
-    padding: 12px 25px;
-    border: none;
-    border-radius: 25px;
-    background: linear-gradient(to right, #ff6f61, #ffb347);
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    transition: 0.3s;
-  }
-
-  .story-box button:hover {
-    transform: scale(1.05);
-  }
-
-  .story-output {
-    margin-top: 20px;
-    font-size: 20px;
-    color: #333;
-    white-space: pre-line;
-    animation: fadeIn 1.5s ease;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  /* Flying star animation */
-  .star {
-    position: absolute;
-    font-size: 28px;
-    color: gold;
-    cursor: pointer;
-    animation: floatStar 6s linear infinite;
-  }
-
-  @keyframes floatStar {
-    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-    50% { transform: translateY(-100px) rotate(180deg); opacity: 0.7; }
-    100% { transform: translateY(0) rotate(360deg); opacity: 1; }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kids Story Generator</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      margin: 0; padding: 0;
+      background: linear-gradient(to bottom, #ffe1f0, #d9f2ff);
+      height: 100vh; overflow: hidden;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      color: #ff4da6;
+      margin-top: 20px;
+    }
+    #star-counter {
+      position: fixed; top: 15px; right: 20px;
+      font-size: 1.5rem; color: gold;
+      background: rgba(255,255,255,0.6);
+      padding: 8px 15px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(255,215,0,0.6);
+    }
+    .container {
+      width: 100%; height: 100%;
+      display: flex; justify-content: center; align-items: center;
+    }
+    .story-box {
+      background: #fff;
+      padding: 25px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+      width: 60%; max-width: 900px; min-height: 500px;
+    }
+    .story-box input {
+      width: 60%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 20px;
+      border: 2px solid #ffb347;
+      font-size: 16px;
+      text-align: center;
+    }
+    .story-box button {
+      margin: 8px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(to right, #ff6f61, #ffb347);
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .story-box button:hover {
+      transform: scale(1.05);
+    }
+    .story-output {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #333;
+      white-space: pre-line;
+      animation: fadeIn 1.5s ease;
+      max-height: 40vh;
+      overflow-y: auto;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; } to { opacity: 1; }
+    }
+    .star {
+      position: absolute;
+      font-size: 28px;
+      color: gold;
+      cursor: pointer;
+      animation: floatStar 6s linear infinite;
+    }
+    @keyframes floatStar {
+      0%   { transform: translateY(0) rotate(0deg);   opacity: 1;   }
+      50%  { transform: translateY(-100px) rotate(180deg); opacity: 0.7; }
+      100% { transform: translateY(0) rotate(360deg); opacity: 1;   }
+    }
+  </style>
 </head>
 <body>
 
-<h1>🌈 Kids Story Generator 1</h1>
-<div id="star-counter">⭐ 0</div>
+  <h1>🌈 Kids Story Generator</h1>
+  <div id="star-counter">⭐ 0</div>
 
-<div class="container">
-  <div class="story-box">
-    <h2>A1 Level – Your Adventure Awaits!</h2>
-    <input id="mainChar" placeholder="Main Character">
-    <input id="friend" placeholder="Friend or Pet">
-    <input id="place" placeholder="Where are they? (park, lake)">
-    <input id="object" placeholder="Special Object (ball, kite)">
-    <input id="problem" placeholder="Simple Problem (lost toy)">
-    <br>
-    <button onclick="generateStory()">Generate Story</button>
-    <button onclick="generateStory()">Generate Again</button>
-    <div class="story-output" id="story"></div>
+  <div class="container">
+    <div class="story-box">
+      <h2>A1 Level – Your Adventure Awaits!</h2>
+      <input id="mainChar" placeholder="Main Character" />
+      <input id="friend"   placeholder="Friend or Pet"    />
+      <input id="place"    placeholder="Where are they? (park, lake)" />
+      <input id="object"   placeholder="Special Object (ball, kite)" />
+      <input id="problem"  placeholder="Simple Problem (lost toy)" />
+      <br/>
+      <button onclick="generateStory()">Generate Story</button>
+      <button onclick="generateStory()">Generate Again</button>
+      <div class="story-output" id="story"></div>
+    </div>
   </div>
-</div>
 
-<script>
-let starCounter = 0;
+  <script>
+    let starCounter = 0;
 
-// 50 story templates using {0}..{6} for placeholders
-const templates = [
-  "One day, {0} and {1} went to {2} with a {3}. But {pronoun} {4}. In the end, {pronoun} laughed and played all day!",
+    // Only templates using {0}–{4} + {pronoun}
+    const templates = [
+      "One day, {0} and {1} went to {2} with a {3}. But {pronoun} {4}. In the end, {pronoun} laughed and played all day!",
+      "One sunny day, {0} and {1} took a {3} to {2}. Suddenly, {pronoun} {4}, but it turned into a wonderful adventure!",
+      "{0} loved adventures with {1}. Today at {2}, they brought a {3}. Everything was perfect until {pronoun} {4}!",
+      "At {2}, {0} and {1} found a {3}. When suddenly {pronoun} {4}. Luckily, they turned it into a fun game!",
+      "Once upon a time, {0} skipped happily to {2} with {1}, holding a {3}. But then {pronoun} {4}. What a silly, fun day!"
+       "One day, {0} and {1} went to {2} with a {3}. But {pronoun} {4}. In the end, {pronoun} laughed and played all day!",
   "One sunny day, {0} and {1} took a {3} to {2}. Suddenly, {pronoun} {4}, but it turned into a wonderful adventure!",
   "{0} loved adventures with {1}. Today at {2}, they brought a {3}. Everything was perfect until {pronoun} {4}!",
-  "In the beginning, At {2}, {0} and {1} had fun with a {3}. But then, {pronoun} {4}. Luckily, a happy ending came their way!",
-  "Once upon a time, {0} skipped happily to {2} with {1}. They held a {3}, but soon {pronoun} {4}. What a silly, fun day!"
-   "[name] and [friend] meet at the [place]. They bring a [object] and [action] happily, and feel [feeling] as the sun sets.",
-      "One day [name] sees a [object] at the [place]. [friend] helps them [action] with it, and they feel [feeling].",
-      "Early morning [name] brings a [object] to the [place] and [action] around joyfully, ending the day [feeling].",
-      "[name] and [friend] walk to the [place] together, share a [object], [action], and feel [feeling].",
-      "In the [place] [name] finds a lost [object], [friend] helps them [action], and they feel [feeling].",
-      "[name] invites [friend] to the [place], they bring a [object], [action], and feel [feeling].",
-      "One sunny day [name] goes to the [place], [friend] brings a [object], they [action], and feel [feeling].",
-      "[name] and [friend] arrive at the [place], use a [object] to [action], and end up [feeling].",
-      "At the [place] [name] spots a [object], [friend] laughs, they [action], and feel [feeling].",
-      "[name] holds a [object] at the [place], [friend] joins to [action], and they feel [feeling].",
-      "[name] sees [friend] waiting at the [place], they share the [object], [action], and feel [feeling].",
-      "[name] brings a [object] to meet [friend] at the [place], they [action], and feel [feeling].",
-      "One morning [name] and [friend] meet with a [object], [action], and feel [feeling].",
-      "[name] and [friend] explore the [place], find a [object], [action], and feel [feeling].",
-      "[name] waits at the [place] with a [object], [friend] arrives, they [action], and feel [feeling].",
-      "[name] and [friend] pack a [object] for the [place], [action], and feel [feeling].",
-      "[name] walks to the [place] with [friend], use a [object] to [action], and feel [feeling].",
-      "[friend] meets [name] by the [place], they [action] with a [object], and feel [feeling].",
-      "At the [place] [name] has a [object], [friend] and [name] [action], and feel [feeling].",
-      "[name] and [friend] plan to [action] at the [place], grab a [object], and feel [feeling].",
-      "One rainy day [name] takes a [object] to the [place], [friend] helps [action], and they feel [feeling].",
-      "[name] and [friend] meet early in the [place], find a [object], [action], and feel [feeling].",
-      "At the [place] [name] waves to [friend], they share a [object], [action], and feel [feeling].",
-      "[name] and [friend] chat near the [place] with a [object], decide to [action], and feel [feeling].",
-      "[name] and [friend] ride to the [place], carry a [object], [action], and feel [feeling].",
-      "[name] calls [friend] to join at the [place], they [action] with a [object], and feel [feeling].",
-      "[name] brings a [object] to the [place], [friend] and [name] [action], and feel [feeling].",
-      "[name] wakes up excited for the [place], [friend] arrives with a [object], they [action], and feel [feeling].",
-      "[name] finds a shiny [object] at the [place], [friend] and [name] [action], and feel [feeling].",
-      "[name] and [friend] walk hand in hand to the [place], [action] with a [object], and feel [feeling].",
-      "Morning at the [place], [name] holds a [object], [friend] [action], and feel [feeling].",
-      "[name] and [friend] stand in the [place], use [object] to [action], and feel [feeling].",
-      "[name] sees [friend] near the [place] with a [object], they [action], and feel [feeling].",
-      "[name] wakes up and meets [friend] at the [place], carry [object], [action], and feel [feeling].",
-      "One cloudy day [name] brings a [object] to the [place], [friend] and [name] [action], feel [feeling].",
-      "[name] and [friend] meet beside the [place], share a [object], [action], and feel [feeling].",
-      "[name] waits at the [place] for [friend], they [action] with a [object], and feel [feeling].",
-      "[name] packs a [object] for the [place], [friend] and [name] [action], feel [feeling].",
-      "[name] walks to the [place] with a [object], [friend] joins to [action], feel [feeling].",
-      "At sunrise [name] brings [object] to the [place], [friend] arrives to [action], feel [feeling].",
-      "[name] and [friend] meet at dawn at the [place], [action] with a [object], feel [feeling].",
-      "[name] invites [friend] with a [object] to the [place], [action] until noon, feel [feeling].",
-      "[name] sits in the [place] with [object], [friend] comes to [action], feel [feeling].",
-      "[name] and [friend] run to the [place] early, use a [object] to [action], feel [feeling].",
-      "[name] and [friend] step into the [place] with a [object], [action] side by side, feel [feeling].",
-      "[name] and [friend] stand at the [place] gate, [action] with a [object], feel [feeling].",
-      "[name] and [friend] smile at the [place], [action] and share the [object], feel [feeling].",
-      "[name] holds out a [object] to [friend] at the [place], they [action], and feel [feeling].",
-      "[name] and [friend] explore the [place] with a [object], [action] around happily, feel [feeling].",
-      "[name] and [friend] decide to [action] at the [place], bring a [object] and start playing, feel [feeling]."
-];
-// Expand to 50 templates
-while (templates.length < 50) {
-  templates.push(...templates);
-}
-templates.length = 50;
+  "At {2}, {0} and {1} found a {3}. When suddenly {pronoun} {4}. Luckily, they turned it into a fun game!",
+  "Once upon a time, {0} skipped happily to {2} with {1}, holding a {3}. But then {pronoun} {4}. What a silly, fun day!",
+  "Early one morning, {0} and {1} carried a {3} to {2}. Soon, {pronoun} {4}, which made them giggle.",
+  "During a bright afternoon at {2}, {0} offered {1} a {3}. However, {pronoun} {4}. They still had a blast.",
+  "In the evening, {0} and {1} discovered a {3} beside {2}. Suddenly, {pronoun} {4}, but they fixed it together.",
+  "While walking to {2}, {0} held a {3} tight. Out of nowhere, {pronoun} {4}. Then they cheered.",
+  "One cool breeze day, {0} and {1} took their {3} to {2}. Unfortunately, {pronoun} {4}. Yet the day ended well.",
+  "{0} and {1} raced to {2} with a {3}. Along the way, {pronoun} {4}. Still, they kept smiling.",
+  "On a rainy day at {2}, {0} clutched a {3}. Suddenly, {pronoun} {4}, but the rain sparkled around them.",
+  "{0} and {1} planned a trip to {2}, packing a {3}. In a flash, {pronoun} {4}, but they worked as a team.",
+  "Under the bright sun at {2}, {0} and {1} waved their {3}. Then, {pronoun} {4}. Fortunately, a friend helped.",
+  "{0} wandered into {2} holding a {3} while {1} followed. Soon, {pronoun} {4}, but it became a funny story.",
+  "At the playground {2}, {0} shared a {3} with {1}. Unexpectedly, {pronoun} {4}, yet smiles returned.",
+  "{0} and {1} climbed the hill by {2} with a {3}. Abruptly, {pronoun} {4}. In the end, they danced under the sky.",
+  "One moonlit night at {2}, {0} and {1} brought a {3}. Suddenly, {pronoun} {4}, but then they found a treasure.",
+  "{0} and {1} explored the garden at {2} with a {3}. Out of the blue, {pronoun} {4}. They then sang a song.",
+  "During a picnic at {2}, {0} unpacked a {3}. Unexpectedly, {pronoun} {4}. Still, they finished their meal happily.",
+  "{0} rode a bike to {2} with {1}, carrying a {3}. Suddenly, {pronoun} {4}. Yet they fixed the bike and continued.",
+  "On a windy day at {2}, {0} and {1} flew a {3}. Suddenly, {pronoun} {4}. But then the wind carried them home.",
+  "{0} invited {1} to {2} and brought a {3}. Along the way, {pronoun} {4}. Ultimately, they found laughter.",
+  "{0} and {1} danced at {2} with a {3} in hand. Then, {pronoun} {4}. Still, they kept dancing.",
+  "One quiet afternoon, {0} and {1} sat by {2} with a {3}. Suddenly, {pronoun} {4}. They then painted a picture together.",
+  "{0} and {1} marched to {2} carrying a {3}. Unexpectedly, {pronoun} {4}. They solved it with a smile.",
+  "{0} and {1} yelled 'Hooray!' at {2} holding a {3}. Then, {pronoun} {4}. They cheered even louder.",
+  "In the forest near {2}, {0} and {1} found a {3}. Suddenly, {pronoun} {4}. But the animals helped them.",
+  "{0} and {1} visited {2} carrying a {3}. Suddenly, {pronoun} {4}. Luckily, a rainbow appeared.",
+  "{0} and {1} strolled to {2} with a {3}. Unexpectedly, {pronoun} {4}. They then shared ice cream.",
+  "One chilly day, {0} and {1} went to {2} bringing a {3}. Suddenly, {pronoun} {4}. But they warmed up with hugs.",
+  "{0} and {1} jumped into {2} holding a {3}. Unexpectedly, {pronoun} {4}. They ended with a splash.",
+  "{0} took {1} to {2} with a {3}. Suddenly, {pronoun} {4}. Still, they found a clever solution.",
+  "{0} and {1} ran to {2} with a {3}. Suddenly, {pronoun} {4}. They laughed so hard.",
+  "One bright afternoon, {0} and {1} bicycled to {2} with a {3}. Suddenly, {pronoun} {4}. They pedaled back home.",
+  "In the meadow at {2}, {0} and {1} held a {3}. Suddenly, {pronoun} {4}. A butterfly cheered them on.",
+  "{0} and {1} paddled to {2} with a {3}. Unexpectedly, {pronoun} {4}. They returned with big smiles.",
+  "On a cloudy day at {2}, {0} and {1} flew a {3}. Suddenly, {pronoun} {4}. They danced in the clouds.",
+  "{0} and {1} climbed the mountain by {2} with a {3}. Suddenly, {pronoun} {4}. They found a kind guide.",
+  "{0} and {1} raced a scooter to {2} with a {3}. Suddenly, {pronoun} {4}. They still won the race.",
+  "{0} and {1} glided across {2} with a {3}. Suddenly, {pronoun} {4}. They giggled all the way.",
+  "{0} and {1} tiptoed to {2} carrying a {3}. Suddenly, {pronoun} {4}. They whispered a secret.",
+  "{0} and {1} hopped to {2} with a {3}. Suddenly, {pronoun} {4}. They hopped back happily.",
+  "{0} and {1} marched to {2} with a {3}. Suddenly, {pronoun} {4}. Then they marched home.",
+  "{0} and {1} wandered to {2} with a {3}. Suddenly, {pronoun} {4}. Then they wandered in circles.",
+  "{0} and {1} drove to {2} with a {3}. Suddenly, {pronoun} {4}. They returned to tell a story.",
+  "{0} and {1} flew to {2} with a {3}. Suddenly, {pronoun} {4}. But they landed softly.",
+  "{0} and {1} sailed to {2} with a {3}. Suddenly, {pronoun} {4}. Yet they docked safely.",
+  "{0} and {1} trekked to {2} with a {3}. Suddenly, {pronoun} {4}. They celebrated their bravery.",
+  "{0} and {1} visited {2} with a {3}. Suddenly, {pronoun} {4}. They ended with a happy song."
+    ];
 
-// Determine pronouns
-function getPronoun(name) {
-  if (!name) return { subject: "they", object: "them", possessive: "their" };
+    // Repeat up to 50 (duplicates are fine)
+    while (templates.length < 50) {
+      templates.push(...templates);
+    }
+    templates.length = 50;
 
-  const lower = name.toLowerCase();
-  const maleNames = ["tom","jack","john","max","liam","oliver"];
-  const femaleNames = ["lily","mia","sophia","ava","olivia","emma"];
+    function getPronoun(name) {
+      if (!name) return { subject: "they", object: "them", possessive: "their" };
+      const lower = name.toLowerCase();
+      const males   = ["tom","jack","john","max","liam","oliver"];
+      const females = ["lily","mia","sophia","ava","olivia","emma"];
+      if (males.includes(lower))   return { subject: "he",   object: "him",  possessive: "his" };
+      if (females.includes(lower)) return { subject: "she",  object: "her",  possessive: "her" };
+      if (lower.startsWith("the ")) return { subject: "it",   object: "it",   possessive: "its" };
+      return { subject: "they", object: "them", possessive: "their" };
+    }
 
-  if (maleNames.includes(lower)) return { subject: "he", object: "him", possessive: "his" };
-  if (femaleNames.includes(lower)) return { subject: "she", object: "her", possessive: "her" };
+    function generateStory() {
+      const mainChar = document.getElementById('mainChar').value || "A happy child";
+      const friend   = document.getElementById('friend').value   || "their puppy";
+      const place    = document.getElementById('place').value    || "the sunny park";
+      const object   = document.getElementById('object').value   || "a colorful kite";
+      const problem  = document.getElementById('problem').value  || "lost their toy";
 
-  // If starts with 'the' treat as it
-  if (lower.startsWith("the ")) return { subject: "it", object: "it", possessive: "its" };
+      const pronoun  = getPronoun(mainChar).subject;
+      let   story    = templates[Math.floor(Math.random() * templates.length)]
+                          .replace("{0}", mainChar)
+                          .replace("{1}", friend)
+                          .replace("{2}", place)
+                          .replace("{3}", object)
+                          .replace("{4}", problem)
+                          .replace(/{pronoun}/g, pronoun);
 
-  return { subject: "they", object: "them", possessive: "their" };
-}
+      document.getElementById('story').textContent = story;
 
-function generateStory() {
-  const mainChar = document.getElementById('mainChar').value || "A happy child";
-  const friend = document.getElementById('friend').value || "their puppy";
-  const place = document.getElementById('place').value || "the sunny park";
-  const object = document.getElementById('object').value || "a colorful kite";
-  const problem = document.getElementById('problem').value || "lost their toy";
+      // make 8 stars
+      for (let i = 0; i < 8; i++) createStar();
+    }
 
-  // Get pronouns
-  const pronouns = getPronoun(mainChar);
+    function createStar() {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      star.textContent = '⭐';
+      star.style.top = Math.random() * window.innerHeight + 'px';
+      star.style.left = Math.random() * window.innerWidth  + 'px';
+      star.style.animationDuration = 3 + Math.random() * 4 + 's';
 
-  // Pick a random template
-  const template = templates[Math.floor(Math.random() * templates.length)];
-  const story = template
-    .replace("{0}", mainChar)
-    .replace("{1}", friend)
-    .replace("{2}", place)
-    .replace("{3}", object)
-    .replace("{4}", problem)
-    .replaceAll("{pronoun}", pronouns.subject);
+      star.addEventListener('click', () => {
+        starCounter++;
+        document.getElementById('star-counter').textContent = '⭐ ' + starCounter;
+        star.remove();
+      });
 
-  document.getElementById('story').textContent = story;
-
-  // Create 8 animated stars
-  for (let i = 0; i < 8; i++) createStar();
-}
-
-// Create flying star
-function createStar() {
-  const star = document.createElement('div');
-  star.classList.add('star');
-  star.textContent = '⭐';
-  star.style.top = Math.random() * window.innerHeight + 'px';
-  star.style.left = Math.random() * window.innerWidth + 'px';
-  star.style.animationDuration = 3 + Math.random() * 4 + 's';
-
-  star.addEventListener('click', () => {
-    starCounter++;
-    document.getElementById('star-counter').textContent = '⭐ ' + starCounter;
-    star.remove();
-  });
-
-  document.body.appendChild(star);
-
-  setTimeout(() => { star.remove(); }, 6000);
-}
-</script>
-
+      document.body.appendChild(star);
+      setTimeout(() => star.remove(), 6000);
+    }
+  </script>
 </body>
 </html>
