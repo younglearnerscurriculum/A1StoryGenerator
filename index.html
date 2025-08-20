@@ -3,290 +3,332 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>A1 Rough Draft Story Generator</title>
+  <title>A1 Story Generator</title>
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Comic Sans MS', cursive;
+      margin: 0; padding: 0; font-family: 'Comic Sans MS', cursive;
       background: linear-gradient(to bottom right, #ffd3b6, #ffaaa5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      display: flex; justify-content: center; align-items: center; height: 100vh;
     }
     .generator-container {
-      background: #fff;
-      border: 2px solid #ff8b94;
-      border-radius: 12px;
+      background: #fff; border: 2px solid #ff8b94; border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      aspect-ratio: 16/9;
-      width: 90vw;
-      max-width: 1280px;
-      padding: 20px;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+      aspect-ratio: 16/9; width: 90vw; max-width: 1280px; padding: 20px;
+      box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden;
     }
     .header { text-align: center; }
     .header h1 { margin: 0; color: #333; }
-    .header p { margin: 5px 0 15px; font-size: 1em; }
-
-    .input-area {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      justify-content: center;
-      margin-bottom: 10px;
+    .header p { margin: 6px 0 12px; font-size: 0.95em; color:#333; }
+    .input-area { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px; }
+    .input-wrap { display:flex; flex-direction:column; gap:4px; align-items:stretch; }
+    .input-wrap label { font-size: 0.85em; color:#444; }
+    .input-area input, .input-area select {
+      padding: 6px; border-radius: 8px; border: 1px solid #999; font-size: 0.95em; text-align: center;
     }
-    .input-area input {
-      padding: 6px;
-      border-radius: 6px;
-      border: 1px solid #999;
-      font-size: 0.9em;
-      width: calc(33% - 16px);
-      min-width: 120px;
-      text-align: center;
-    }
-
-    .button-area {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      margin-bottom: 10px;
-    }
+    .bad { border-color:#e11d48 !important; background:#ffe8ed; }
+    .help { font-size: 0.8em; color:#555; text-align:center; margin-bottom: 10px; }
+    .button-area { display:flex; gap:10px; justify-content:center; margin-bottom: 8px; }
     button {
-      background: #ff8b94;
-      color: #fff;
-      padding: 8px 16px;
-      font-size: 1em;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.2s;
+      background:#ff8b94; color:#fff; padding:8px 16px; font-size:1em;
+      border:none; border-radius:10px; cursor:pointer; transition:background 0.2s;
     }
-    button:hover { background: #ff6f69; }
-
-    .story-area {
-      flex: 1;
-      display: flex;
-      gap: 10px;
-      overflow: hidden;
-    }
+    button:hover { background:#ff6f69; }
+    .story-area { flex:1; display:flex; gap:10px; overflow:hidden; }
     #story, #story-editor {
-      background: #fdfdfd;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      font-size: 1em;
-      line-height: 1.4;
-      width: 50%;
-      height: 100%;
-      box-sizing: border-box;
-      overflow-y: auto;
-      white-space: pre-wrap;
+      background:#fdfdfd; padding:10px; border-radius:8px; border:1px solid #ccc;
+      font-size:1em; line-height:1.4; width:50%; height:100%;
+      box-sizing:border-box; overflow-y:auto; white-space:pre-wrap;
     }
-    #story { opacity: 1; }
-    #story-editor {
-      resize: none;
-      font-family: inherit;
-      display: none;
-    }
-
-    footer {
-      text-align: center;
-      font-size: 0.75em;
-      color: #666;
-      margin-top: 10px;
-    }
+    #story-editor { resize:none; font-family:inherit; display:none; }
+    footer { text-align:center; font-size:0.8em; color:#666; margin-top: 8px; }
+    .note { text-align:center; font-size:0.8em; color:#0b7285; min-height:1.2em; }
   </style>
 </head>
 <body>
   <div class="generator-container">
     <div class="header">
-      <h1>A1 Rough Draft Story Generator</h1>
-      <p>Fill in words and generate a story, then edit it!</p>
+      <h1>A1 Simple Story Generator</h1>
+      <p>Fill in and generate a custom story and then edit your new story ending </p>
+    </div>
+
+    <div class="help">
+      Action = A1 verb (e.g., <em>play, read, make</em>) • Place/Object = A1 noun (e.g., <em>park, room, ball</em>) • Feeling = A1 adjective (e.g., <em>happy, glad, calm</em>)
     </div>
 
     <div class="input-area">
-      <input id="name" placeholder="Name (e.g., Tom)" />
-      <input id="friend" placeholder="Friend (e.g., Ana)" />
-      <input id="place" placeholder="Place (e.g., park)" />
-      <input id="object" placeholder="Thing (e.g., ball)" />
-      <input id="action" placeholder="Action (base form: run, draw, play)" />
-      <input id="feeling" placeholder="Feeling (e.g., happy)" />
+      <div class="input-wrap">
+        <label for="name">Name</label>
+        <input id="name" placeholder="Tom" />
+      </div>
+      <div class="input-wrap">
+        <label for="friend">Friend</label>
+        <input id="friend" placeholder="Ana" />
+      </div>
+      <div class="input-wrap">
+        <label for="place">Place (A1 noun)</label>
+        <input id="place" list="dlist-nouns" placeholder="park" />
+      </div>
+      <div class="input-wrap">
+        <label for="object">Thing (A1 noun)</label>
+        <input id="object" list="dlist-nouns" placeholder="ball" />
+      </div>
+      <div class="input-wrap">
+        <label for="action">Action (A1 verb)</label>
+        <input id="action" list="dlist-verbs" placeholder="play" />
+      </div>
+      <div class="input-wrap">
+        <label for="feeling">Feeling (A1 adj)</label>
+        <input id="feeling" list="dlist-feel" placeholder="happy" />
+      </div>
     </div>
 
+    <datalist id="dlist-verbs"></datalist>
+    <datalist id="dlist-nouns"></datalist>
+    <datalist id="dlist-feel"></datalist>
+
     <div class="button-area">
+      <button id="random-btn">🎲 Random Fill</button>
       <button id="generate-btn">📖 Generate Story</button>
     </div>
+
+    <div class="note" id="note"></div>
 
     <div class="story-area">
       <div id="story">Your story will appear here.</div>
       <textarea id="story-editor" placeholder="Edit your story..."></textarea>
     </div>
 
-    <footer>All rights reserved Young Learners Curriculum 2025</footer>
+    <footer>
+      <span id="brandYear"></span> • All Rights Reserved • Young Learners Curriculum
+    </footer>
   </div>
 
   <script>
-    /* ---------- Helper functions to enforce simple grammar ---------- */
+    // ==== Auto year in footer ====
+    document.getElementById('brandYear').textContent = new Date().getFullYear();
 
+    // ===== CEFR A1 Whitelists (3–5 letters, base form) =====
+    const A1_VERBS = new Set([
+      'add','ask','buy','cut','dry','eat','fix','get','mix','put','use',
+      'bake','call','care','cook','draw','drop','film','find','give','help','hear','hide','hold',
+      'join','jump','keep','know','like','live','look','love','make','mean','meet','move','need',
+      'open','play','read','ride','ring','save','send','show','sing','sit','stay','stop','take',
+      'talk','tell','test','turn','wait','walk','wash','wear','work',
+      'build','clean','close','drink','laugh','learn','leave','light','plant','sleep','smile',
+      'start','study','teach','think','write','watch'
+    ]);
+
+    const A1_NOUNS = new Set([
+      'bag','bed','boy','bus','cat','cow','cup','day','dog','egg','fan','hat','kid','leg','man','map',
+      'mom','dad','pen','pig','sea','sun','toy','box','car',
+      'area','ball','bank','bath','beef','bell','bird','blue','boat','book','cake','camp','card','city',
+      'club','coat','cold','desk','door','farm','food','foot','girl','gift','hand','head','hill','home',
+      'hope','hour','lake','land','lion','list','meal','milk','park','part','pear','pool','road','room',
+      'salt','sand','seat','seed','ship','shoe','shop','size','snow','soap','song','soup','star','tree',
+      'trip','week','wind','wolf','word','work','yard',
+      'apple','bread','chair','class','clock','color','floor','house','light','money','mouse','phone',
+      'plant','river','table','thing','watch','water'
+    ]);
+
+    const A1_FEELINGS = new Set([
+      'calm','fine','glad','good','kind','nice','happy','angry','tired'
+    ]);
+
+    // Populate datalists
+    function fillDatalist(id, set) {
+      const dl = document.getElementById(id);
+      dl.innerHTML = '';
+      [...set].sort().forEach(w => {
+        const o = document.createElement('option'); o.value = w; dl.appendChild(o);
+      });
+    }
+    fillDatalist('dlist-verbs', A1_VERBS);
+    fillDatalist('dlist-nouns', A1_NOUNS);
+    fillDatalist('dlist-feel', A1_FEELINGS);
+
+    // ===== Grammar helpers =====
     function capitalizeName(s) {
       s = (s || '').trim();
       if (!s) return '';
       return s.split(/\s+/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
     }
-
-    function startsWithVowelSound(word) {
-      // Basic vowel sound check; treats "honest" as vowel-ish and "university" as consonant-ish is overkill for A1; keep simple.
-      return /^[aeiou]/i.test(word || '');
+    function startsWithVowelSound(word) { return /^[aeiou]/i.test(word || ''); }
+    function hasDet(phrase) { return /^(the|a|an|my|your|his|her|our|their|this|that|these|those)\b/i.test((phrase||'').trim()); }
+    function isPlural(w) { const t = (w||'').toLowerCase(); return t.endsWith('s') && !t.endsWith('ss'); }
+    function articleize(np) {
+      const s = (np || '').trim();
+      if (!s) return 'something';
+      if (hasDet(s) || isPlural(s)) return s;
+      return (startsWithVowelSound(s) ? 'an ' : 'a ') + s;
     }
-
-    function hasDeterminer(phrase) {
-      return /^(the|a|an|my|your|his|her|our|their|this|that|these|those)\b/i.test(phrase.trim());
-    }
-
-    function isPlural(word) {
-      // super simple heuristic; if it ends with 's' and not 'ss' we assume plural
-      const w = (word || '').trim().toLowerCase();
-      return w.endsWith('s') && !w.endsWith('ss');
-    }
-
-    function articleize(nounPhrase) {
-      const np = (nounPhrase || '').trim();
-      if (!np) return 'something';
-      if (hasDeterminer(np) || isPlural(np)) return np; // already has det. or plural
-      return (startsWithVowelSound(np) ? 'an ' : 'a ') + np;
-    }
-
-    function placeWithArticle(place) {
-      let p = (place || '').trim();
+    function placeWithArticle(p) {
+      p = (p || '').trim();
       if (!p) return 'the park';
-      // common bare nouns that work without "the"
-      const bareList = ['school', 'home', 'church', 'breakfast', 'lunch', 'dinner'];
-      if (bareList.includes(p.toLowerCase())) return p;
-      if (hasDeterminer(p)) return p;
+      const bare = new Set(['school','home','church','breakfast','lunch','dinner']);
+      if (bare.has(p.toLowerCase())) return p;
+      if (hasDet(p)) return p;
       return 'the ' + p;
     }
 
-    function normalizeFeeling(feel) {
-      const f = (feel || '').trim().toLowerCase();
-      if (!f) return 'happy';
-      // keep single-word or simple two-word feelings
-      return f.replace(/[^a-z\s-]/gi, '').trim() || 'happy';
+    // ===== Base form normalization (ing/ed/es/s) =====
+    const STOP = new Set(['a','an','the','and','but','or','so','if','for','nor','yet','with','from','that','in','on','at','by','to','of',
+      'is','am','are','was','were','be','been','being','have','has','had','do','does','did','will','would','shall','should','may','might','must','can','could'
+    ]);
+    const isConsonant = ch => /^[b-df-hj-np-tv-z]$/.test(ch);
+
+    function toBase(w) {
+      if (!w) return '';
+      w = w.toLowerCase().replace(/[^a-z]/g, '');
+      if (!w || STOP.has(w)) return '';
+      const cand = [];
+      // ing
+      if (w.endsWith('ing') && w.length > 4) {
+        let base = w.slice(0, -3); cand.push(base);
+        if (base.length >= 2) {
+          const a = base.at(-2), b = base.at(-1);
+          if (a === b && isConsonant(a)) cand.push(base.slice(0, -1)); // running -> run
+        }
+        cand.push(base + 'e'); // mak -> make
+      }
+      // ied / ed
+      if (w.endsWith('ied') && w.length > 3) cand.push(w.slice(0, -3) + 'y');
+      else if (w.endsWith('ed') && w.length > 3) {
+        let base = w.slice(0, -2); cand.push(base);
+        if (base.length >= 2) {
+          const a = base.at(-2), b = base.at(-1);
+          if (a === b && isConsonant(a)) cand.push(base.slice(0, -1)); // stopped -> stop
+        }
+        cand.push(base + 'e'); // maked -> make
+      }
+      // ies
+      if (w.endsWith('ies') && w.length > 3) cand.push(w.slice(0, -3) + 'y');
+      // es
+      if (w.endsWith('es') && w.length > 3) {
+        const base = w.slice(0, -2); cand.push(base); cand.push(base + 'e');
+      }
+      // s (not ss)
+      if (w.endsWith('s') && !w.endsWith('ss') && w.length > 2) cand.push(w.slice(0, -1));
+      // raw
+      cand.push(w);
+
+      const seen = new Set();
+      for (const c of cand) {
+        if (!c || seen.has(c)) continue;
+        seen.add(c);
+        if (c.length >= 3 && c.length <= 5) return c;
+      }
+      return w;
     }
 
-    function normalizeAction(verb) {
-      // Keep base form only (no -ing/-ed). Strip extras.
-      let v = (verb || '').trim().toLowerCase();
-      v = v.replace(/[^a-z\s-]/gi, '').split(/\s+/)[0] || 'play';
-      return v;
-    }
-
-    function namesFallback(value, fallback) {
-      const v = capitalizeName(value);
-      return v || fallback;
-    }
-
-    /* ---------------- Templates (kept inside as requested) ----------------
-       All templates are rewritten to avoid tense/agreement issues:
-       - Use "to [action]" after "start/like/decide/plan/bring" etc.
-       - Use "they [action]" only when grammatically fine in simple present.
-       - Articles handled by helpers.
-       - Removed awkward/duplicative feeling structures.
-    ---------------------------------------------------------------------- */
-
+    // ===== 50 templates in PRESENT TENSE =====
     const templates = [
-      "Once upon a time, [name] and [friend] went to [place]. They carried [object] and started to [action]. They felt [feeling]. It was a great day. The end.",
-      "One sunny morning, [name] met [friend] at [place]. They brought [object] to [action] together. They felt [feeling] and laughed. It was a perfect day.",
-      "[name] walked to [place] with [friend]. They held [object] and liked to [action]. They felt [feeling] as they played. It was so much fun.",
-      "[name] saw [friend] waiting at [place]. They had [object] and began to [action]. They felt [feeling] and smiled a lot. It was a happy afternoon.",
-      "[name] and [friend] went outside to [place]. They used [object] to [action]. They felt [feeling] together. The sun shone on them.",
-      "One day, [name] and [friend] visited [place]. They carried [object] and tried to [action]. They felt [feeling] when they finished. It was a great day.",
-      "[name] ran to [place] with [friend]. They played with [object] and decided to [action]. They felt [feeling] together. The evening was calm.",
-      "[name] met [friend] near [place]. They had [object] and started to [action]. They felt [feeling] as they laughed. It was a beautiful day.",
-      "[name] and [friend] went walking to [place]. They found [object] and decided to [action]. They felt [feeling]. It was a special moment.",
-      "[name] and [friend] were at [place]. They played with [object] and began to [action]. They felt [feeling] and laughed loudly. The day felt like magic.",
-      "One morning, [name] and [friend] visited [place]. They brought [object] to [action] together. They felt [feeling] the whole time. It was fun for both of them.",
-      "[name] and [friend] walked into [place]. They held [object] and started to [action]. They felt [feeling] as the wind blew. They had a good day.",
-      "[name] called [friend] to go to [place]. They brought [object] and began to [action]. They felt [feeling] and played all day. It was exciting.",
-      "[name] and [friend] met at [place]. They saw [object] and started to [action]. They felt [feeling] together. It was a happy time.",
-      "[name] and [friend] went for a walk to [place]. They brought [object] to [action]. They felt [feeling] as the sun set. It was a wonderful day.",
-      "[name] went to [place] with [friend]. They carried [object] and tried to [action]. They felt [feeling] together. The day was nice.",
-      "[name] and [friend] liked to visit [place]. They played with [object] and decided to [action]. They felt [feeling] while playing. It was a great morning.",
-      "[name] and [friend] ran to [place]. They had [object] and started to [action]. They felt [feeling] together. The sky was bright.",
-      "[name] and [friend] went to [place]. They used [object] to [action]. They felt [feeling] and smiled. It was a good day.",
-      "[name] and [friend] were walking in [place]. They saw [object] and began to [action]. They felt [feeling]. The air was fresh.",
-      "[name] ran to meet [friend] at [place]. They carried [object] to [action]. They felt [feeling] and kept going. It was a joyful day.",
-      "[name] and [friend] liked [place] a lot. They brought [object] and started to [action]. They felt [feeling] while playing. It was the best.",
-      "One afternoon, [name] and [friend] visited [place]. They played with [object] and began to [action]. They felt [feeling]. The day was sunny.",
-      "[name] and [friend] wanted to go to [place]. They carried [object] and planned to [action]. They felt [feeling] and smiled. It was a great visit.",
-      "[name] and [friend] spent the day at [place]. They played with [object] and chose to [action]. They felt [feeling] together. The sky was clear.",
-      "[name] and [friend] walked slowly to [place]. They held [object] and began to [action]. They felt [feeling] and stayed calm. It was peaceful.",
-      "[name] and [friend] liked to play at [place]. They had [object] and started to [action]. They felt [feeling] all day. It was wonderful.",
-      "[name] and [friend] saw [place] from far away. They ran with [object] to [action]. They felt [feeling] and laughed. The day was bright.",
-      "[name] and [friend] enjoyed [place] very much. They played with [object] and decided to [action]. They felt [feeling] as the day ended. It was special.",
-      "[name] and [friend] were happy at [place]. They used [object] to [action]. They felt [feeling] together. It was a good day.",
-      "[name] and [friend] smiled at [place]. They brought [object] and started to [action]. They felt [feeling] in the sun. It was fun.",
-      "[name] and [friend] liked to [action] at [place]. They had [object]. They felt [feeling] while playing. The day was happy.",
-      "[name] and [friend] visited [place] after lunch. They carried [object] to [action]. They felt [feeling] together. The air was fresh.",
-      "[name] and [friend] spent time at [place]. They had [object] and started to [action]. They felt [feeling] and laughed. It was perfect.",
-      "[name] and [friend] went running to [place]. They held [object] and began to [action]. They felt [feeling] together. The day was bright.",
-      "[name] and [friend] played at [place] today. They used [object] to [action]. They felt [feeling]. It was fun.",
-      "[name] and [friend] liked visiting [place]. They carried [object] to [action]. They felt [feeling] together. The day was calm.",
-      "[name] and [friend] met up at [place]. They held [object] and began to [action]. They felt [feeling] the whole time. It was nice.",
-      "[name] and [friend] enjoyed walking to [place]. They played with [object] and started to [action]. They felt [feeling] in the sun. It was a joyful day.",
-      "[name] and [friend] went to [place] in the morning. They had [object] and began to [action]. They felt [feeling] and smiled. It was beautiful.",
-      "[name] and [friend] met at [place] after school. They brought [object] to [action]. They felt [feeling] together. It was very fun.",
-      "[name] and [friend] loved [place] very much. They carried [object] and planned to [action]. They felt [feeling] and free. The day was bright.",
-      "[name] and [friend] went to [place] to play. They had [object] and started to [action]. They felt [feeling] together. It was exciting.",
-      "[name] and [friend] were laughing in [place]. They used [object] to [action]. They felt [feeling] as they played. It was a sunny day.",
-      "[name] and [friend] walked into [place] slowly. They held [object] and began to [action]. They felt [feeling] and relaxed. It was peaceful.",
-      "[name] and [friend] visited [place] after breakfast. They brought [object] and started to [action]. They felt [feeling] while playing. It was great.",
-      "[name] and [friend] enjoyed playing at [place]. They carried [object] and began to [action]. They felt [feeling] together. The day was good.",
-      "[name] and [friend] spent the morning in [place]. They used [object] to [action]. They felt [feeling]. It was the best day."
+      "Once upon a time, [name] and [friend] go to [place]. They carry [object] and start to [action]. They feel [feeling]. It is a great day. The end.",
+      "One sunny morning, [name] meets [friend] at [place]. They bring [object] to [action] together. They feel [feeling] and laugh. It is a perfect day.",
+      "[name] walks to [place] with [friend]. They hold [object] and like to [action]. They feel [feeling] as they play. It is so much fun.",
+      "[name] sees [friend] waiting at [place]. They have [object] and begin to [action]. They feel [feeling] and smile a lot. It is a happy afternoon.",
+      "[name] and [friend] go outside to [place]. They use [object] to [action]. They feel [feeling] together. The sun shines on them.",
+      "Today, [name] and [friend] visit [place]. They carry [object] and try to [action]. They feel [feeling] when they finish. It is a great day.",
+      "[name] runs to [place] with [friend]. They play with [object] and decide to [action]. They feel [feeling] together. The evening is calm.",
+      "[name] meets [friend] near [place]. They have [object] and start to [action]. They feel [feeling] as they laugh. It is a beautiful day.",
+      "[name] and [friend] walk to [place]. They find [object] and decide to [action]. They feel [feeling]. It is a special moment.",
+      "[name] and [friend] are at [place]. They play with [object] and begin to [action]. They feel [feeling] and laugh loudly. The day feels like magic.",
+      "One morning, [name] and [friend] visit [place]. They bring [object] to [action] together. They feel [feeling] the whole time. It is fun for both of them.",
+      "[name] and [friend] walk into [place]. They hold [object] and start to [action]. They feel [feeling] as the wind blows. They have a good day.",
+      "[name] calls [friend] to go to [place]. They bring [object] and begin to [action]. They feel [feeling] and play all day. It is exciting.",
+      "[name] and [friend] meet at [place]. They see [object] and start to [action]. They feel [feeling] together. It is a happy time.",
+      "[name] and [friend] go for a walk to [place]. They bring [object] to [action]. They feel [feeling] as the sun sets. It is a wonderful day.",
+      "[name] goes to [place] with [friend]. They carry [object] and try to [action]. They feel [feeling] together. The day is nice.",
+      "[name] and [friend] like to visit [place]. They play with [object] and decide to [action]. They feel [feeling] while they play. It is a great morning.",
+      "[name] and [friend] run to [place]. They have [object] and start to [action]. They feel [feeling] together. The sky is bright.",
+      "[name] and [friend] go to [place]. They use [object] to [action]. They feel [feeling] and smile. It is a good day.",
+      "[name] and [friend] walk in [place]. They see [object] and begin to [action]. They feel [feeling]. The air is fresh.",
+      "[name] runs to meet [friend] at [place]. They carry [object] to [action]. They feel [feeling] and keep going. It is a joyful day.",
+      "[name] and [friend] like [place] a lot. They bring [object] and start to [action]. They feel [feeling] while they play. It is the best.",
+      "In the afternoon, [name] and [friend] visit [place]. They play with [object] and begin to [action]. They feel [feeling]. The day is sunny.",
+      "[name] and [friend] want to go to [place]. They carry [object] and plan to [action]. They feel [feeling] and smile. It is a great visit.",
+      "[name] and [friend] spend the day at [place]. They play with [object] and choose to [action]. They feel [feeling] together. The sky is clear.",
+      "[name] and [friend] walk slowly to [place]. They hold [object] and begin to [action]. They feel [feeling] and stay calm. It is peaceful.",
+      "[name] and [friend] like to play at [place]. They have [object] and start to [action]. They feel [feeling] all day. It is wonderful.",
+      "[name] and [friend] see [place] from far away. They run with [object] to [action]. They feel [feeling] and laugh. The day is bright.",
+      "[name] and [friend] enjoy [place] very much. They play with [object] and decide to [action]. They feel [feeling] as the day ends. It is special.",
+      "[name] and [friend] are happy at [place]. They use [object] to [action]. They feel [feeling] together. It is a good day.",
+      "[name] and [friend] smile at [place]. They bring [object] and start to [action]. They feel [feeling] in the sun. It is fun.",
+      "[name] and [friend] like to [action] at [place]. They have [object]. They feel [feeling] while they play. The day is happy.",
+      "[name] and [friend] visit [place] after lunch. They carry [object] to [action]. They feel [feeling] together. The air is fresh.",
+      "[name] and [friend] spend time at [place]. They have [object] and start to [action]. They feel [feeling] and laugh. It is perfect.",
+      "[name] and [friend] go running to [place]. They hold [object] and begin to [action]. They feel [feeling] together. The day is bright.",
+      "[name] and [friend] play at [place] today. They use [object] to [action]. They feel [feeling]. It is fun.",
+      "[name] and [friend] like visiting [place]. They carry [object] to [action]. They feel [feeling] together. The day is calm.",
+      "[name] and [friend] meet at [place]. They hold [object] and begin to [action]. They feel [feeling] the whole time. It is nice.",
+      "[name] and [friend] enjoy walking to [place]. They play with [object] and start to [action]. They feel [feeling] in the sun. It is a joyful day.",
+      "[name] and [friend] go to [place] in the morning. They have [object] and begin to [action]. They feel [feeling] and smile. It is beautiful.",
+      "[name] and [friend] meet at [place] after school. They bring [object] to [action]. They feel [feeling] together. It is very fun.",
+      "[name] and [friend] love [place] very much. They carry [object] and plan to [action]. They feel [feeling] and free. The day is bright.",
+      "[name] and [friend] go to [place] to play. They have [object] and start to [action]. They feel [feeling] together. It is exciting.",
+      "[name] and [friend] laugh in [place]. They use [object] to [action]. They feel [feeling] as they play. It is a sunny day.",
+      "[name] and [friend] walk into [place] slowly. They hold [object] and begin to [action]. They feel [feeling] and relax. It is peaceful.",
+      "[name] and [friend] visit [place] after breakfast. They bring [object] and start to [action]. They feel [feeling] while they play. It is great.",
+      "[name] and [friend] enjoy playing at [place]. They carry [object] and begin to [action]. They feel [feeling] together. The day is good.",
+      "[name] and [friend] spend the morning in [place]. They use [object] to [action]. They feel [feeling]. It is the best day.",
+      "Every day, [name] and [friend] go to [place]. They take [object] and start to [action]. They feel [feeling]. It is a nice routine.",
+      "Right now, [name] and [friend] are at [place]. They hold [object] and decide to [action]. They feel [feeling]. It is a fun day."
     ];
 
-    /* Replace placeholders safely with normalized inputs */
-    function fillPlaceholders(text) {
-      const rawName = document.getElementById('name').value;
-      const rawFriend = document.getElementById('friend').value;
+    function randomFrom(set) { const arr = [...set]; return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function validateField(inputEl, base, set, fallback) {
+      const note = document.getElementById('note');
+      let accepted = base;
+      inputEl.classList.remove('bad');
+      if (!base || !set.has(base)) {
+        accepted = fallback;
+        inputEl.classList.add('bad');
+        note.textContent = "Some entries are not in the A1 list. Safe defaults were used and fields are highlighted.";
+      }
+      return accepted;
+    }
+
+    function fillPlaceholders() {
+      const name = capitalizeName(document.getElementById('name').value) || 'Tom';
+      const friend = capitalizeName(document.getElementById('friend').value) || 'Ana';
+
       const rawPlace = document.getElementById('place').value;
       const rawObject = document.getElementById('object').value;
       const rawAction = document.getElementById('action').value;
       const rawFeeling = document.getElementById('feeling').value;
 
-      const name = namesFallback(rawName, 'Tom');
-      const friend = namesFallback(rawFriend, 'Ana');
-      const place = placeWithArticle(rawPlace);
-      const objectNP = articleize(rawObject || 'ball');
-      const action = normalizeAction(rawAction);
-      const feeling = normalizeFeeling(rawFeeling);
+      const basePlace = toBase(rawPlace);
+      const baseObject = toBase(rawObject);
+      const baseAction = toBase(rawAction);
+      const baseFeeling = toBase(rawFeeling);
 
-      const inputs = {
+      const defPlace = 'park';
+      const defObject = 'ball';
+      const defAction = 'play';
+      const defFeeling = 'happy';
+
+      const placeCore = validateField(document.getElementById('place'), basePlace, A1_NOUNS, defPlace);
+      const objectCore = validateField(document.getElementById('object'), baseObject, A1_NOUNS, defObject);
+      const actionCore = validateField(document.getElementById('action'), baseAction, A1_VERBS, defAction);
+      const feelingCore = validateField(document.getElementById('feeling'), baseFeeling, A1_FEELINGS, defFeeling);
+
+      return {
         '[name]': name,
         '[friend]': friend,
-        '[place]': place,
-        '[object]': objectNP,
-        '[action]': action,
-        '[feeling]': feeling
+        '[place]': placeWithArticle(placeCore),
+        '[object]': articleize(objectCore),
+        '[action]': actionCore,
+        '[feeling]': feelingCore
       };
-
-      return text.replace(/\[name\]|\[friend\]|\[place\]|\[object\]|\[action\]|\[feeling\]/g,
-        match => inputs[match]
-      );
     }
 
     function generateStory() {
+      document.getElementById('note').textContent = '';
       const template = templates[Math.floor(Math.random() * templates.length)];
-      let storyText = fillPlaceholders(template);
+      const inputs = fillPlaceholders();
 
-      // Clean double spaces from article insertion and spacing
+      let storyText = template.replace(/\[name\]|\[friend\]|\[place\]|\[object\]|\[action\]|\[feeling\]/g, m => inputs[m]);
       storyText = storyText.replace(/\s{2,}/g, ' ').trim();
-
-      // Insert newlines after sentence endings for readability
       storyText = storyText.replace(/([.!?])\s*/g, '$1\n');
 
       document.getElementById('story').textContent = storyText;
@@ -295,7 +337,19 @@
       editor.value = storyText;
     }
 
+    function randomFill() {
+      document.getElementById('name').value = 'Tom';
+      document.getElementById('friend').value = 'Ana';
+      document.getElementById('place').value = randomFrom(A1_NOUNS);
+      document.getElementById('object').value = randomFrom(A1_NOUNS);
+      document.getElementById('action').value = randomFrom(A1_VERBS);
+      document.getElementById('feeling').value = randomFrom(A1_FEELINGS);
+      ['place','object','action','feeling'].forEach(id => document.getElementById(id).classList.remove('bad'));
+      document.getElementById('note').textContent = '';
+    }
+
     document.getElementById('generate-btn').addEventListener('click', generateStory);
+    document.getElementById('random-btn').addEventListener('click', randomFill);
   </script>
 </body>
 </html>
