@@ -8,12 +8,12 @@
     body {
       margin: 0; padding: 0; font-family: 'Comic Sans MS', cursive;
       background: linear-gradient(to bottom right, #ffd3b6, #ffaaa5);
-      display: flex; justify-content: center; align-items: center; height: 100vh;
+      display: flex; justify-content: center; align-items: center; height: 100%;
     }
     .generator-container {
       background: #fff; border: 2px solid #ff8b94; border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      aspect-ratio: 16/9; width: 90vw; max-width: 1280px; padding: 20px;
+      width: 100%; height: 100%; max-width: none; aspect-ratio: auto; padding: 20px;
       box-sizing: border-box; display: flex; flex-direction: column; overflow: hidden;
     }
     .header { text-align: center; }
@@ -33,73 +33,91 @@
       border:none; border-radius:10px; cursor:pointer; transition:background 0.2s;
     }
     button:hover { background:#ff6f69; }
-    .story-area { flex:1; display:flex; gap:10px; overflow:hidden; }
-    #story, #story-editor {
-      background:#fdfdfd; padding:10px; border-radius:8px; border:1px solid #ccc;
-      font-size:1em; line-height:1.4; width:50%; height:100%;
-      box-sizing:border-box; overflow-y:auto; white-space:pre-wrap;
-    }
-    #story-editor { resize:none; font-family:inherit; display:none; }
+    .story-area { flex:1; display:grid; grid-template-columns: repeat(2, 1fr); gap:10px; overflow:hidden; }
+    #story, #story-editor { width:100%; flex:1; }
+    #story-editor { resize: vertical; font-family: inherit; display: block; min-height: 220px; }
     footer { text-align:center; font-size:0.8em; color:#666; margin-top: 8px; }
     .note { text-align:center; font-size:0.8em; color:#0b7285; min-height:1.2em; }
+      
+    
+    
+    
+      .edit-label { font-size: 0.9em; color:#0b7285; margin-bottom:6px; font-weight:600; }
+      /* Make editor column flexible and textarea full width */
+    
+    #story { width: 100%; }
+    #story-editor { width: 100%; flex: 1; min-height: 260px; }
+      .story-area > * { min-width: 0; }
+      /* Ensure we fill the slide/container exactly */
+    html, body { height: 100%; }
+    /* Panel layout for perfect alignment */
+    .panel { display:flex; flex-direction:column; min-width:0; }
+    .panel-label { font-size: 0.9em; color:#0b7285; margin:0 0 6px; font-weight:600; }
   </style>
 </head>
 <body>
   <div class="generator-container">
     <div class="header">
-      <h1>A1 Simple Story Generator</h1>
-      <p>Fill in and generate a custom story and then edit your new story ending </p>
+      <h1>A1 Rough Draft Story Generator</h1>
+      <p>Fill in and generate a short story read and edit </p>
     </div>
 
     <div class="help">
-      Action = A1 verb (e.g., <em>play, read, make</em>) • Place/Object = A1 noun (e.g., <em>park, room, ball</em>) • Feeling = A1 adjective (e.g., <em>happy, glad, calm</em>)
+      Action = verb (e.g., <em>play, read, make</em>) • Place/Object = noun (e.g., <em>park, room, ball</em>) • Feeling = adjective (e.g., <em>happy, glad, calm</em>)
     </div>
 
     <div class="input-area">
       <div class="input-wrap">
         <label for="name">Name</label>
-        <input id="name" placeholder="Tom" />
+        <input id="name" list="dlist-names" placeholder="Alan" />
       </div>
       <div class="input-wrap">
         <label for="friend">Friend</label>
-        <input id="friend" placeholder="Ana" />
+        <input id="friend" list="dlist-names" placeholder="Ana" />
       </div>
       <div class="input-wrap">
-        <label for="place">Place (A1 noun)</label>
-        <input id="place" list="dlist-nouns" placeholder="park" />
+        <label for="place">Place</label>
+        <input id="place" list="dlist-places" placeholder="park" />
       </div>
       <div class="input-wrap">
-        <label for="object">Thing (A1 noun)</label>
-        <input id="object" list="dlist-nouns" placeholder="ball" />
+        <label for="object">Thing</label>
+        <input id="object" list="dlist-things" placeholder="ball" />
       </div>
       <div class="input-wrap">
-        <label for="action">Action (A1 verb)</label>
+        <label for="action">Action</label>
         <input id="action" list="dlist-verbs" placeholder="play" />
       </div>
       <div class="input-wrap">
-        <label for="feeling">Feeling (A1 adj)</label>
+        <label for="feeling">Feeling</label>
         <input id="feeling" list="dlist-feel" placeholder="happy" />
       </div>
     </div>
 
     <datalist id="dlist-verbs"></datalist>
-    <datalist id="dlist-nouns"></datalist>
+    <datalist id="dlist-places"></datalist>
+    <datalist id="dlist-things"></datalist>
     <datalist id="dlist-feel"></datalist>
-
+    <datalist id="dlist-names"></datalist>
     <div class="button-area">
       <button id="random-btn">🎲 Random Fill</button>
       <button id="generate-btn">📖 Generate Story</button>
     </div>
 
-    <div class="note" id="note"></div>
+    <div class="note" id="note">Tip: Pick from the dropdowns → Generate → add your ending.</div>
 
     <div class="story-area">
-      <div id="story">Your story will appear here.</div>
-      <textarea id="story-editor" placeholder="Edit your story..."></textarea>
+      <div class="panel">
+        <div class="panel-label">📖 Story</div>
+        <div id="story">Your story will appear here.</div>
+      </div>
+      <div class="panel">
+        <div class="panel-label">✏️ Edit here</div>
+        <textarea id="story-editor" placeholder="Edit your story..."></textarea>
+      </div>
     </div>
 
     <footer>
-      <span id="brandYear"></span> • All Rights Reserved • Young Learners Curriculum
+      © <span id="brandYear"></span> • All Rights Reserved • Young Learners Curriculum
     </footer>
   </div>
 
@@ -118,23 +136,35 @@
       'start','study','teach','think','write','watch'
     ]);
 
-    const A1_NOUNS = new Set([
-      'bag','bed','boy','bus','cat','cow','cup','day','dog','egg','fan','hat','kid','leg','man','map',
-      'mom','dad','pen','pig','sea','sun','toy','box','car',
-      'area','ball','bank','bath','beef','bell','bird','blue','boat','book','cake','camp','card','city',
-      'club','coat','cold','desk','door','farm','food','foot','girl','gift','hand','head','hill','home',
-      'hope','hour','lake','land','lion','list','meal','milk','park','part','pear','pool','road','room',
-      'salt','sand','seat','seed','ship','shoe','shop','size','snow','soap','song','soup','star','tree',
-      'trip','week','wind','wolf','word','work','yard',
-      'apple','bread','chair','class','clock','color','floor','house','light','money','mouse','phone',
-      'plant','river','table','thing','watch','water'
+    const A1_PLACES = new Set([
+      // places (3–5 letters only)
+      'space', 'park', 'room','home','farm','lake','yard','road','city','zoo','mall','cafe','hotel','beach','field','woods','grass','trail','store','camp','hall','class','shop'
     ]);
 
+    const A1_THINGS = new Set([
+      // common objects/things (3–5 letters only)
+      'bag','bed','box','boy','bus','cat','cow','cup','day','dog','egg','fan','hat','kid','leg','man','map','pen','pig','sea','sun','toy','car',
+      'area','ball','bank','bath','bell','bird','boat','book','cake','card','club','coat','cold','food','foot','girl','gift','hand','head','hill','hope','hour',
+      'meal','milk','part','pear','pool','salt','sand','seat','seed','ship','shoe','size','snow','soap','song','soup','star','tree','trip','week','wind','wolf',
+      'apple','bread','chair','clock', 'floor','house','light','money','mouse','phone','plant','river','table','watch','water',
+      // extras 3–5 letters things
+      'bike','kite','rope','brush','paint','glue','drum','game','mask','stick','door','desk'
+    ]);
     const A1_FEELINGS = new Set([
-      'calm','fine','glad','good','kind','nice','happy','angry','tired'
+      'fine','glad','good','kind','nice','happy','angry','tired',
+      'sad','shy','bored','silly','funny','proud','upset','brave'
     ]);
+    // Edit the character list below to add/remove names shown in the Name/Friend dropdowns.
+    const FUN_NAMES = [
+      'Kelly the Bear','Kai the Bear','Stella the Seal',
+      'Claire the Bear','Leslie the Lion','Davis the Dino','Diana the Dino','Jake the Snake','Milo the Monkey','Lucia the Lion',
+      'Max the Bat','Mia the Fly','Sasha the Star','Otis the Octopus','Mike the Tiger','Sue the Ladybug','Katie the Kangaroo','Maggie the Magpie',
+      'Broccoli the Parrot','Frosty the Snowman','Penny the Pig',
+      'Trix the Triceratops','Ben the Butterfly','Ray the Raptor','Stella the Squid'
+    ];
+// Name & Friend use datalists (typing + dropdown suggestions)
 
-    // Populate datalists
+// Populate datalists
     function fillDatalist(id, set) {
       const dl = document.getElementById(id);
       dl.innerHTML = '';
@@ -143,10 +173,12 @@
       });
     }
     fillDatalist('dlist-verbs', A1_VERBS);
-    fillDatalist('dlist-nouns', A1_NOUNS);
+    fillDatalist('dlist-places', A1_PLACES);
+    fillDatalist('dlist-things', A1_THINGS);
     fillDatalist('dlist-feel', A1_FEELINGS);
-
-    // ===== Grammar helpers =====
+    fillDatalist('dlist-names', new Set(FUN_NAMES));
+    // names now use <select>, not datalist
+// ===== Grammar helpers =====
     function capitalizeName(s) {
       s = (s || '').trim();
       if (!s) return '';
@@ -222,9 +254,9 @@
 
     // ===== 50 templates in PRESENT TENSE =====
     const templates = [
-      "Once upon a time, [name] and [friend] go to [place]. They carry [object] and start to [action]. They feel [feeling]. It is a great day. The end.",
+      "Once upon a time, [name] and [friend] go to the [place]. They carry [object] and start to [action]. They feel [feeling]. It is a great day. The end.",
       "One sunny morning, [name] meets [friend] at [place]. They bring [object] to [action] together. They feel [feeling] and laugh. It is a perfect day.",
-      "[name] walks to [place] with [friend]. They hold [object] and like to [action]. They feel [feeling] as they play. It is so much fun.",
+      "One day, [name] walks to [place] with [friend]. They hold [object] and like to [action]. They feel [feeling] as they play. It is so much fun.",
       "[name] sees [friend] waiting at [place]. They have [object] and begin to [action]. They feel [feeling] and smile a lot. It is a happy afternoon.",
       "[name] and [friend] go outside to [place]. They use [object] to [action]. They feel [feeling] together. The sun shines on them.",
       "Today, [name] and [friend] visit [place]. They carry [object] and try to [action]. They feel [feeling] when they finish. It is a great day.",
@@ -289,8 +321,10 @@
     }
 
     function fillPlaceholders() {
-      const name = capitalizeName(document.getElementById('name').value) || 'Tom';
-      const friend = capitalizeName(document.getElementById('friend').value) || 'Ana';
+      const nameRaw = document.getElementById('name').value;
+      const friendRaw = document.getElementById('friend').value;
+      const name = capitalizeName(nameRaw) || 'Tom';
+      const friend = capitalizeName(friendRaw) || 'Ana';
 
       const rawPlace = document.getElementById('place').value;
       const rawObject = document.getElementById('object').value;
@@ -307,8 +341,8 @@
       const defAction = 'play';
       const defFeeling = 'happy';
 
-      const placeCore = validateField(document.getElementById('place'), basePlace, A1_NOUNS, defPlace);
-      const objectCore = validateField(document.getElementById('object'), baseObject, A1_NOUNS, defObject);
+      const placeCore = validateField(document.getElementById('place'), basePlace, A1_PLACES, defPlace);
+      const objectCore = validateField(document.getElementById('object'), baseObject, A1_THINGS, defObject);
       const actionCore = validateField(document.getElementById('action'), baseAction, A1_VERBS, defAction);
       const feelingCore = validateField(document.getElementById('feeling'), baseFeeling, A1_FEELINGS, defFeeling);
 
@@ -338,10 +372,11 @@
     }
 
     function randomFill() {
-      document.getElementById('name').value = 'Tom';
-      document.getElementById('friend').value = 'Ana';
-      document.getElementById('place').value = randomFrom(A1_NOUNS);
-      document.getElementById('object').value = randomFrom(A1_NOUNS);
+      const rName = FUN_NAMES[Math.floor(Math.random()*FUN_NAMES.length)];
+      const rFriend = FUN_NAMES[Math.floor(Math.random()*FUN_NAMES.length)];
+      document.getElementById('name').value = rName;
+      document.getElementById('friend').value = rFriend;document.getElementById('place').value = randomFrom(A1_PLACES);
+      document.getElementById('object').value = randomFrom(A1_THINGS);
       document.getElementById('action').value = randomFrom(A1_VERBS);
       document.getElementById('feeling').value = randomFrom(A1_FEELINGS);
       ['place','object','action','feeling'].forEach(id => document.getElementById(id).classList.remove('bad'));
